@@ -1,0 +1,11 @@
+%h1 About  
+#box
+  %div.date 1
+  %p  This is a simple application using Sinatra and HAML.
+  %p= "#{locals[:hello]}"
+
+  - locals[:workspaces].each do |i|
+    %p= i.name
+
+  - locals[:test].each do |i|
+    %p= i
