@@ -33,9 +33,12 @@ def getActiveProjects(proj, active)
     projectName = p.name
     projectId = p.id
     project = Asana::Project.find(projectId)
-    tasks = project.tasks
+
       if project.color == "dark-green"
-        puts tasks.first.name
+        tasks = project.tasks
+        tasks.each do |t|
+          puts t.name #now only do this if it's tagged properly
+        end
       end
       # if project.color == "dark-green"
       # 	active << projectName
