@@ -53,14 +53,11 @@ end
 def getActiveProjects(proj, active)
   proj.each do |p|
     # projectName = p.name
-    # projectId = p.id
+    projectId = p.id
     project = Asana::Project.find(projectId)
       #this should get out of this function, and then uncomment out the one below it
       if project.color == "dark-green"
-        tasks = project.tasks
-        tasks.each do |t|
-          puts t.name #now only do this if it's tagged properly - each of these loops goes in the HAML - anything with PUTS
-        end
+        active << project
       end
       # if project.color == "dark-green"
       # 	active << projectName
@@ -69,7 +66,6 @@ def getActiveProjects(proj, active)
       #   #I can probalby store the whole project object into the array form this loop too (not just the name), and then pass that through. THAT is probably the best idea.
       # end
   end
-  puts active
 end
 
 #run ----->
@@ -81,6 +77,7 @@ end
 #print all project names to the screen
 getActiveProjects(projects, activeProjects)
 
-getSingleProject(asanaProject, "MILESTONE", "overview")
+
+# getSingleProject(asanaProject, "MILESTONE", "overview")
 
 
