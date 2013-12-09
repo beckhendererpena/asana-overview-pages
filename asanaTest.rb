@@ -33,7 +33,7 @@ def getActiveProjects(proj, active)
     projectName = p.name
     projectId = p.id
     project = Asana::Project.find(projectId)
-
+      #this should get out of this function, and then uncomment out the one below it
       if project.color == "dark-green"
         tasks = project.tasks
         tasks.each do |t|
