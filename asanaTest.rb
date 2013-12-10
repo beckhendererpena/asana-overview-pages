@@ -11,26 +11,34 @@ end
 asanaProject = Asana::Project.find("8820311263807")
 
 # Get all projects
-projects = Asana::Project.all
+allProjects = Asana::Project.all
 
 # Get all projects in a given workspace
 # workspace = Asana::Workspace.find("593447651003")
 # projects = workspace.projects
 
-#holds all active projects, defined by color dark-green
-activeProjects = []
-
 #get users from Asana
 users = Asana::User.all
-
-def printWorkspaceName(name)
-  workspaceName = name.name
-  puts workspaceName
-end
 
 #to get detailed project info, you have to use the project ID and look it up on it's own.  When doing it through workspaces, 
 #it just returns id and name
 
+def getActiveProjects(projects)
+  #holds all active projects, defined by color dark-green
+  # activeProjects = []
+  projects.select { |p|  Asana::Project.find(p.id).color == "dark-green" }
+  # projects.each do |p|
+  #   projectId = p.id
+  #   project = Asana::Project.find(projectId)
+  #     #get by color and put into array for HAML
+  #     if project.color == "dark-green"  #try using select here
+  #       activeProjects << project
+  #     end
+       
+  # end
+end
+
+#rework this to take variables of what I want?  try not to puts in the function
 def getSingleProject(proj, tag1, tag2)
   tasks = proj.tasks
   tasks.each do |t|
@@ -50,33 +58,10 @@ def getSingleProject(proj, tag1, tag2)
   end
 end
 
-def getActiveProjects(proj, active)
-  proj.each do |p|
-    # projectName = p.name
-    projectId = p.id
-    project = Asana::Project.find(projectId)
-      #this should get out of this function, and then uncomment out the one below it
-      if project.color == "dark-green"
-        active << project
-      end
-      # if project.color == "dark-green"
-      # 	active << projectName
-      #   puts "#{projectName}: #{projectId}" #instead of puts-ing, I should put these to an array, and then pass that through to HAML.  or should I recreate this whole loop in HAML?
-      #   puts active.last
-      #   #I can probalby store the whole project object into the array form this loop too (not just the name), and then pass that through. THAT is probably the best idea.
-      # end
-  end
-end
-
 #run ----->
 
-# puts "Workspace:" 
-#print workspace name
-# printWorkspaceName(workspace)
-
 #print all project names to the screen
-getActiveProjects(projects, activeProjects)
-
+puts getActiveProjects(allProjects).map { |e| e.name }
 
 # getSingleProject(asanaProject, "MILESTONE", "overview")
 
