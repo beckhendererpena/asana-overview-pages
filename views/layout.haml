@@ -1,29 +1,38 @@
-!!!  
-%html  
-  %head  
-    %title My Sinatra Website  
-    %link(rel="stylesheet" href="http://yui.yahooapis.com/2.8.0r4/build/reset/reset-min.css")  
-    %link(rel="stylesheet" href="css/styles.css")  
-  %body  
-    #wrapper  
-      #header  
-        %h1 My Sinatra Website  
-        %h2 A Simple Site made with Sinatra and HAML!  
-        #nav  
-        %ol  
-
-        - locals[:workspaces].each do |i|
-          %a(href="/projects/#{i.name}")
-            %li= i.name  
-
-      #content  
-        =yield
-  
-      #side_bar  
-        %h1 Side Bar  
-        %p  
-          This is the side bar of the webpage  
-  
-      #footer  
-        %p  
-          This is the footer.  
+!!!
+%html
+  %head
+    %title Royale Digital Project Overview
+    %meta{content: "width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no", name: "viewport"}/
+    / Using jQuery and jQuery UI for display effects
+    %script{src: "http://code.jquery.com/jquery-1.9.1.min.js"}
+    %script{src: "http://code.jquery.com/ui/1.10.3/jquery-ui.js"}
+    / Using the hamburger menu display code
+    %script{src: "/js/hamburger.js"}
+    / Using Media Queries, if the viewport is smaller than 700px use another stylesheet
+    %link{href: "/css/hamburger.css", media: "all", rel: "stylesheet", type: "text/css"}/
+  %body
+    / This wrapping container is used to get the width of the whole content
+    #container
+      / The Hamburger Button in the Header
+      %header
+        #hamburger
+          %div
+          %div
+          %div
+      / The mobile navigation Markup hidden via css
+      %nav.mobileNav
+        %ul
+          - @projects.each do |i|
+            %li
+              %a{href: "/projects/#{i.id}"}= i.name
+   
+      / The Layer that will be layed over the content
+      /  so that the content is unclickable while menu is shown
+      #contentLayer
+      / The content of the site / maybe this is separate pages?
+      #content
+        =yield  
+      
+      #footer
+        %p
+          %img(src="/img/royale.jpg")

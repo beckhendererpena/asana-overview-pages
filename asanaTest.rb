@@ -8,7 +8,7 @@ end
 # workspaces = Asana::Workspace.all
 
 #asana-visualization project id
-asanaProject = Asana::Project.find("8820311263807")
+# asanaProject = Asana::Project.find("8820311263807")
 
 # Get all projects
 allProjects = Asana::Project.all
@@ -18,7 +18,7 @@ allProjects = Asana::Project.all
 # projects = workspace.projects
 
 #get users from Asana
-users = Asana::User.all
+# users = Asana::User.all
 
 #to get detailed project info, you have to use the project ID and look it up on it's own.  When doing it through workspaces, 
 #it just returns id and name
