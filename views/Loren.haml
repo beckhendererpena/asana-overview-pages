@@ -1,0 +1,60 @@
+!!!
+%html{"data-wf-site" => "52aa0ba12b7410655400079a"}
+  %head
+    %meta{charset: "utf-8"}/
+    %title taskstester
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
+    %link{href: "/css/normalize.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/css/webflow.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/css/stylesheet.css", rel: "stylesheet", type: "text/css"}/
+  %body
+    .projecttitle Project Title
+    .tasktoday
+      .w-row
+        .w-col.w-col-9.w-col-small-6.w-col-tiny-6
+          %h1 Create
+        .w-col.w-col-3.w-col-small-6.w-col-tiny-6.date
+          .daterow
+            .day Today
+            .monthyear
+              %br/
+      %p
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus
+        id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.
+      .w-row.subtasks
+        .w-col.w-col-9
+          .subtask This is some text inside of a div block.
+        .w-col.w-col-3
+          .subdate 12-22-2013
+      .w-row.subtasks
+        .w-col.w-col-9
+          .subtask This is some text inside of a div block.
+        .w-col.w-col-3
+          .subdate 12-22-2013
+    .task
+      .w-row
+        .w-col.w-col-9.w-col-small-6.w-col-tiny-6
+          %h1 Create
+        .w-col.w-col-3.w-col-small-6.w-col-tiny-6.date
+          .daterow
+            .day 20
+            .monthyear
+              December
+              = succeed "2013" do
+                %br/
+      %p
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus
+        id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.
+      .w-row.subtasks
+        .w-col.w-col-9
+          .subtask This is some text inside of a div block.
+        .w-col.w-col-3
+          .subdate 12-22-2013
+      .w-row.subtasks
+        .w-col.w-col-9
+          .subtask This is some text inside of a div block.
+        .w-col.w-col-3
+          .subdate 12-22-2013
+    
+    %script{src: "https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js", type: "text/javascript"}
+    %script{src: "js/webflow.js", type: "text/javascript"}

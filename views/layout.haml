@@ -22,7 +22,7 @@
       / The mobile navigation Markup hidden via css
       %nav.mobileNav
         %ul
-          - @projects.each do |i|
+          - @activeProjects.each do |i|
             %li
               %a{href: "/projects/#{i.id}"}= i.name
    

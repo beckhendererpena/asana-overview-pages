@@ -4,6 +4,7 @@ Asana.configure do |client|
   client.api_key = '4tuQrdX.5djpapCXlKooicNrUgx0zbeY'
 end
 
+date = Date.today.to_s
 #get workspaces from Asana
 # workspaces = Asana::Workspace.all
 
@@ -61,8 +62,8 @@ end
 #run ----->
 
 #print all project names to the screen
-puts getActiveProjects(allProjects).map { |e| e.name }
-
+# puts getActiveProjects(allProjects).map { |e| e.name }
+puts date
 # getSingleProject(asanaProject, "MILESTONE", "overview")
 
 

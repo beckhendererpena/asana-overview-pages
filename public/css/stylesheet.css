@@ -1,0 +1,178 @@
+body {
+  font-family: Verdana, Helvetica, sans-serif;
+  background: #447288;
+  font-size: 12px;
+  line-height: 20px;
+}
+h1 {
+  width: auto;
+  height: 50px;
+  margin: 30px 0px 0px 10px;
+  padding-top: 0px;
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #6898af;
+  font-size: 36px;
+  line-height: 22px;
+  font-weight: 200;
+}
+.tasktoday h1{
+  color: #fff;
+}
+h3 {
+  margin: 10px 0px;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+}
+h4 {
+  margin: 10px 0px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+h5 {
+  margin: 10px 0px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+}
+h6 {
+  margin: 10px 0px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 700;
+}
+p {
+  margin-bottom: 30px;
+  padding-right: 53px;
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #98a8b0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+}
+
+.tasktoday p{
+  margin-bottom: 30px;
+  padding-right: 53px;
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #ffcbbb;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+}
+.task p{
+	padding-left: 20px;
+	padding-bottom: 20px;
+	width: 75%;
+}
+.tasktoday p{
+	padding-left: 20px;
+	padding-bottom: 20px;
+	width: 75%;
+}
+
+
+/* For phone and tablet */
+
+@media only screen and (max-device-width: 640px) {
+	.task p{
+		padding-left: 20px;
+		width: 100%;
+	}
+	.tasktoday p{
+		padding-left: 20px;
+		width: 100%;
+	}
+}
+
+/* for desktop */
+.projecttitle{
+	height: 150px;
+	width: auto;
+	height: 50px;
+	margin: 30px 0px 0px 30px;
+	padding-top: 0px;
+	font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #6898af;
+	font-size: 36px;
+	line-height: 22px;
+	font-weight: 500;
+}
+.task {
+  width: 100%;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-left: 10px;
+  background-color: #dee5e8;
+  margin: 2px 0px 2px 0px;
+}
+.tasktoday{
+  width: 100%;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-left: 10px;
+  background-color: #e77755;
+  margin: 2px 0px 2px 0px;
+}
+.date {
+  height: 50px;
+  margin-top: 30px;
+}
+.subtask {
+  margin-left: 0px;
+  padding-left: 10px;
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #6898af;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 300;
+}
+.tasktoday .subtask{
+	  color: #fff;
+}
+.day {
+	position: relative;
+	float: left;
+  width: 40px;
+  height: 50px;
+  padding-top: 4px;
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #6898af;
+  font-size: 36px;
+  font-weight: 200;
+  text-align: right;
+}
+.tasktoday .day{
+	color: #fff;
+}
+.monthyear {
+	position: relative;
+	float: right;
+  height: 50px;
+  width: 160px;
+  padding-right: 0px;
+  padding-left: 4px;
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #98a8b0;
+  font-size: 13px;
+  line-height: 15px;
+  text-transform: uppercase;
+}
+.daterow {
+  height: 50px;
+  width: 200px;
+}
+.subtasks {
+  height: auto;
+  margin: 10px 0px 10px 0px;
+}
+.subdate {
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #6898af;
+  font-size: 16px;
+  font-weight: 300;
+}
+.tasktoday .subdate{
+	  color: #fff;
+}

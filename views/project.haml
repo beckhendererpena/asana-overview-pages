@@ -2,23 +2,4 @@
 %p=  @project.notes
 
 %p NEXT MILESTONE:
-- @project.tasks.each do |t|
-  - t.tags.each do |tag|
-
-    -if tag.name == "MILESTONE"
-      %h2= t.name
-      %p= "Due on: #{t.due_on}"
-      %p= t.notes
-
-    -if tag.name == "overview"
-      %h4= t.name
-      %p= t.notes
-
-    / -if Date.parse(t.due_on) < Date.today
-    /   %h4= t.name
-    /   %p= t.notes
-    
-    
-/tasks by user with due date?
-/or tasks due before a date?
-/Maybe get users and display everything on their plate before a date?
+%h2= @milestone.name
