@@ -12,7 +12,7 @@ date = Date.today.to_s
 # asanaProject = Asana::Project.find("8820311263807")
 
 # Get all projects
-allProjects = Asana::Project.all
+# allProjects = Asana::Project.all
 
 # Get all projects in a given workspace
 # workspace = Asana::Workspace.find("593447651003")
@@ -21,49 +21,39 @@ allProjects = Asana::Project.all
 #get users from Asana
 # users = Asana::User.all
 
-#to get detailed project info, you have to use the project ID and look it up on it's own.  When doing it through workspaces, 
-#it just returns id and name
+def getAssignedTasksFromProject(projectId)
 
-def getActiveProjects(projects)
-  #holds all active projects, defined by color dark-green
-  # activeProjects = []
-  projects.select { |p|  Asana::Project.find(p.id).color == "dark-green" }
-  # projects.each do |p|
-  #   projectId = p.id
-  #   project = Asana::Project.find(projectId)
-  #     #get by color and put into array for HAML
-  #     if project.color == "dark-green"  #try using select here
-  #       activeProjects << project
-  #     end
-       
-  # end
-end
+  # return an array with all the tasks that are assigned to someone
+  allAssignedTasks = Asana::Project.find(projectId).tasks.select { |task| task.assignee != nil }
+  
+  # get user list for this project
+  # getUserListFromProject(allAssignedTasks) #returns array of users
 
-#rework this to take variables of what I want?  try not to puts in the function
-def getSingleProject(proj, tag1, tag2)
-  tasks = proj.tasks
-  tasks.each do |t|
-    t.tags.each do |tags|
-      if tags.name == tag1
-        puts t.name
-        puts t.notes
-        puts t.due_on
-      end
-      if tags.name == tag2
-        puts t.name
-        puts t.assignee.name
-        puts t.notes
-        #eventually add comments?
+  # for each user in an array, print their name and a list of tasks ---- probably done in HAML
+  getUserListFromProject(allAssignedTasks).each do |user|  
+    puts user.to_s #might want to send users list to haml too?  instead of putsing here.
+    allAssignedTasks.each do |task|
+      if task.assignee.name == user
+        puts task.name #get rid of puts here when transferring
       end
     end
   end
+  
 end
+
+def getUserListFromProject(taskList)
+  usersInThisProject = []
+  taskList.sort_by {|i| i.assignee.name}.each { |task| usersInThisProject << task.assignee.name }
+  return usersInThisProject.uniq!
+end
+
 
 #run ----->
 
 #print all project names to the screen
 # puts getActiveProjects(allProjects).map { |e| e.name }
-puts date
+# puts date
 # getSingleProject(asanaProject, "MILESTONE", "overview")
 
+getAssignedTasksFromProject("1845896782580")
 

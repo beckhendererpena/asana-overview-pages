@@ -3,3 +3,7 @@
 
 %p NEXT MILESTONE:
 %h2= @milestone.name
+
+- @userList.each do |user| 
+  %h2= user
+  /- @allAssignedTasks.each do |task|

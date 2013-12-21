@@ -31,30 +31,18 @@ def getProjectDetails(projectId, projects)
   end 
 end
 
+def getUserListFromProject(taskList)
+  usersInThisProject = []
+  taskList.sort_by {|i| i.assignee.name}.each { |task| usersInThisProject << task.assignee.name }
+  return usersInThisProject.uniq!
+end
 
-#get single project
-# def getSingleProject(proj, tag1, tag2)
-#   tasks = proj.tasks
-#   tasks.each do |t|
-#     t.tags.each do |tags|
-#       if tags.name == tag1
-#         puts t.name
-#         puts t.notes
-#         puts t.due_on
-#       end
-#       if tags.name == tag2
-#         puts t.name
-#         puts t.assignee.name
-#         puts t.notes
-#         #eventually add comments?
-#       end
-#     end
-#   end
+
+# def orderTaskListByUser(taskList, userList)
+#   userList.each { |user| taskList.select { |task| task.assignee.name ==   } }
 # end
 
-
 #-------------------------------RUN------------->
-
 
 
 get '/' do  
@@ -69,6 +57,11 @@ get '/projects/:id' do |id|
   @activeProjects = activeProjects 
 
   @project = Asana::Project.find(id)
+  @allAssignedTasks = @project.tasks.select { |task| task.assignee != nil }
+  @userList = getUserListFromProject(@allAssignedTasks)
+  #get array of tasks by user, using user list and @allAssignedTasks.select.  can loop through that in haml along 
+  #with user list to get task lists per person.
+  # @sortedTaskList = orderTaskListByUser(@allAssignedTasks, @userList)
   @milestone = @project.tasks.find { |task| task.tags.any? { |tag| tag.name == "MILESTONE" } }
   # @tasks = @project.tasks.select { |task| Date.parse(task.due_on) <= Date.parse(@milestone.due_on)}
   
@@ -79,6 +72,11 @@ get '/about' do
   haml :about
 end  
 
-get '/Loren' do
+get 'users/Loren' do
+  Loren = Asana::User.find("5025069468334")
+  #get all projects Loren is on
+
+  @projects = 
+  @tasks = 
   haml :Loren, :layout => false
 end  
