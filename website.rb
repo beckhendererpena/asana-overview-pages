@@ -37,11 +37,6 @@ def getUserListFromProject(taskList)
   return usersInThisProject.uniq!
 end
 
-
-# def orderTaskListByUser(taskList, userList)
-#   userList.each { |user| taskList.select { |task| task.assignee.name ==   } }
-# end
-
 #-------------------------------RUN------------->
 
 
@@ -55,13 +50,11 @@ get '/projects/:id' do |id|
 
   #need this for menu
   @activeProjects = activeProjects 
-
+  
+  #make sure none of these have nil values BEFORE they go to HAML!!!  STILL TO DO
   @project = Asana::Project.find(id)
   @allAssignedTasks = @project.tasks.select { |task| task.assignee != nil }
   @userList = getUserListFromProject(@allAssignedTasks)
-  #get array of tasks by user, using user list and @allAssignedTasks.select.  can loop through that in haml along 
-  #with user list to get task lists per person.
-  # @sortedTaskList = orderTaskListByUser(@allAssignedTasks, @userList)
   @milestone = @project.tasks.find { |task| task.tags.any? { |tag| tag.name == "MILESTONE" } }
   # @tasks = @project.tasks.select { |task| Date.parse(task.due_on) <= Date.parse(@milestone.due_on)}
   

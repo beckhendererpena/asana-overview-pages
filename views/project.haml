@@ -6,4 +6,6 @@
 
 - @userList.each do |user| 
   %h2= user
-  /- @allAssignedTasks.each do |task|
+  - @allAssignedTasks.each do |task|
+    - if task.assignee.name == user
+      %p= task.name
