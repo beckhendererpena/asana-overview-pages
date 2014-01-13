@@ -3,6 +3,7 @@ body {
   background: #447288;
   font-size: 12px;
   line-height: 20px;
+  margin-top: 50px;
 }
 h1 {
   width: auto;
@@ -175,4 +176,8 @@ p {
 }
 .tasktoday .subdate{
 	  color: #fff;
+}
+
+.date {
+  color: #666;
 }

@@ -1,0 +1,40 @@
+ body {
+   padding-left: 0;
+   padding-right: 0;
+ }
+ .container .heading {
+   margin: 40px 0px 10px 12px;
+ }
+ .container .row-fluid .span12 div.div-1 {
+   margin: 0px 20px 60px 0px;
+ }
+ .container .row-fluid .span12 .div-1 .page-header {
+   padding: 0px;
+   margin: 0px 0px 10px 12px;
+ }
+ .container .row-fluid .span12 .div-1 .page-header h1 {
+   font-weight: normal;
+   color: #555555;
+   font-family:"helvetica neue";
+   font-size: 35px;
+ }
+ .container .row-fluid .span12 .div-1 p.p-1 {
+   margin: 0px 0px 10px 12px;
+ }
+ .container .row-fluid .span12 .div-1 .p-1 span {
+   color: #fc0000;
+ }
+ .container .row-fluid .span12 .div-1 p.p-2 {
+   font-weight: 300;
+   font-size: 16px;
+   line-height: 25px;
+   margin: 0px 0px 25px 12px;
+ }
+ .container-fluid {
+   background: #333333;
+   padding: 0px 20px 10px 20px;
+ }
+
+ .date {
+  color: #666 !important;
+}

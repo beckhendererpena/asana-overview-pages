@@ -1,0 +1,37 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}/
+    %meta{content: "width=device-width, initial-scale=1, maximum-scale=1", name: "viewport"}/
+    %link{href: "https://fonts.googleapis.com/css?family=Limelight|Flamenco|Federo|Yesteryear|Josefin Sans|Spinnaker|Sansita One|Handlee|Droid Sans|Oswald:400,300,700", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/bootstrap.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/bootstrap-responsive.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/common.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/fontawesome.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/project.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/asana-personal.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    /
+      Typekit fonts require an account and a kit containing the fonts used. see https://typekit.com/plans for details. <script type="text/javascript" src="//use.typekit.net/YOUR_KIT_ID.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    %title Asana Personal
+  %body
+    .container
+      - @projects.each do |proj| 
+        %h4.heading= proj["name"]
+        .row-fluid
+          %span.span12
+            .div-1
+              - proj["tasks"].each do |t|
+                .page-header
+                  %h1= t.name
+                %p.p-1
+                  %span> Due Date:
+                  \ 
+                  %span{:class => "date"} 2013-01-09
+                %div
+                  %span
+                #dom-elem-24.dom-body-text.paragraph
+                %span
+                %span
+                %p.p-2= t.notes
+    
