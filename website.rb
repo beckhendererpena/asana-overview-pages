@@ -14,14 +14,6 @@ def getActiveProjects(projects)
   projects.select { |p|  Asana::Project.find(p.id).color == "dark-green" }
 end
 
-# def getProjectTasks(projectId)
-#   project = Asana::Project.find(ProjectId)
-#   project.tasks.select { |t| #tasks by something}
-# end
-
-#getting data
-#running this once, rather than everytime, since it has to chrun through a lot of data per call
-# activeProjects = getActiveProjects(Asana::Project.all)
 
 def getProjectDetails(projectId, projects)
   projects.each do |ap|
@@ -29,6 +21,12 @@ def getProjectDetails(projectId, projects)
       #make a project object, with name, due date, notes, etc?
     end
   end 
+end
+
+def getUserListFromProject(taskList)
+  usersInThisProject = []
+  taskList.sort_by {|i| i.assignee.name}.each { |task| usersInThisProject << task.assignee.name }
+  return usersInThisProject.uniq!
 end
 
 #-------------------------------RUN------------->
@@ -73,11 +71,11 @@ get '/Beck' do
   currentProjects = getActiveProjects(Asana::Project.all)
   
   @projects = [] #an array, that will get filled with hashes, with project name and project tasks in each hash.
-  userId = 5357621858433
+  userId = 254224582253
 
   currentProjects.each do |cp|
     #check to see if the project has any tasks for the user
-    # if cp.tasks.any? { |task| task.assignee != nil && task.completed == false && task.assignee.id == userId }
+    if cp.tasks.any? { |task| task.assignee != nil && task.completed == false && task.assignee.id == userId }
       
       #put those in a hash
       h = Hash.new
@@ -87,7 +85,35 @@ get '/Beck' do
       #maybe I can find a way to not do that same loop through twice?  make the array in the if statement, and if it's length is greater than 1, then go
 
       @projects.push(h)  #put the hash in there
-    # end
+    end
+  end
+
+  haml :personal, :layout => false
+end  
+
+
+get '/John' do 
+  
+  currentProjects = getActiveProjects(Asana::Project.all)
+  
+  @projects = [] #an array, that will get filled with hashes, with project name and project tasks in each hash.
+  userId = 5357621858433
+
+  currentProjects.each do |cp|
+
+    tasksForUser = cp.tasks.select { |task| task.assignee != nil && task.completed == false && task.assignee.id == userId}
+    #check to see if the project has any tasks for the user
+    if tasksForUser.length >= 1
+      
+      #put those in a hash
+      h = Hash.new
+      h["name"] = cp.name #returns string
+      h["tasks"] = tasksForUser #returns array
+
+      #maybe I can find a way to not do that same loop through twice?  make the array in the if statement, and if it's length is greater than 1, then go
+
+      @projects.push(h)  #put the hash in there
+    end
   end
 
   haml :personal, :layout => false

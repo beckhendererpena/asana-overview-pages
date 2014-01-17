@@ -3,10 +3,12 @@
    padding-right: 0;
  }
  .container .heading {
-   margin: 40px 0px 10px 12px;
+   margin: 40px 0px 18px 12px;
+   border-bottom: 1px solid #36E2BE;
+   padding-bottom: 3px;
  }
  .container .row-fluid .span12 div.div-1 {
-   margin: 0px 20px 60px 0px;
+   margin: 40px 20px 60px 0px;
  }
  .container .row-fluid .span12 .div-1 .page-header {
    padding: 0px;
@@ -22,13 +24,13 @@
    margin: 0px 0px 10px 12px;
  }
  .container .row-fluid .span12 .div-1 .p-1 span {
-   color: #fc0000;
+   color: #FD6E6E;
  }
  .container .row-fluid .span12 .div-1 p.p-2 {
    font-weight: 300;
    font-size: 16px;
    line-height: 25px;
-   margin: 0px 0px 25px 12px;
+   margin: 0px 0px 36px 12px;
  }
  .container-fluid {
    background: #333333;
@@ -38,3 +40,11 @@
  .date {
   color: #666 !important;
 }
+/*added this too*/
+h4 {
+   display: inline;
+ }
+ /*added this myself*/
+.container {
+   margin-top: 50px;
+ }

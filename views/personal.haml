@@ -16,22 +16,22 @@
     %title Asana Personal
   %body
     .container
-      - @projects.each do |proj| 
+      - @active_project_data.each do |proj| 
         %h4.heading= proj["name"]
         .row-fluid
           %span.span12
             .div-1
               - proj["tasks"].each do |t|
                 .page-header
-                  %h1= t.name
+                  %h1= t["name"]
                 %p.p-1
                   %span> Due Date:
                   \ 
-                  %span{:class => "date"} 2013-01-09
+                  %span.date= t["due_on"]
                 %div
                   %span
                 #dom-elem-24.dom-body-text.paragraph
                 %span
                 %span
-                %p.p-2= t.notes
+                %p.p-2= t["notes"]
     
