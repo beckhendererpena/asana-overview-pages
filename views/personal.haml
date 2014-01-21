@@ -24,6 +24,10 @@
               - proj["tasks"].each do |t|
                 .page-header
                   %h1= t["name"]
+                %p.team_wrapper
+                  %span.team> Team:
+                  \
+                  %span.names Beck, Loren, David
                 %p.p-1
                   %span> Due Date:
                   \ 
@@ -34,4 +38,5 @@
                 %span
                 %span
                 %p.p-2= t["notes"]
+
     

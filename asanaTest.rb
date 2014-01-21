@@ -22,6 +22,20 @@ end
 # workspace = Asana::Workspace.find("593447651003")
 # projects = workspace.projects
 
+
+#keeping a few of these for logic reference
+
+# def getactive_projects(projects)
+#   projects.select { |p|  Asana::Project.find(p.id).color == "dark-green" }
+# end
+
+
+# def getUserListFromProject(taskList)
+#   usersInThisProject = []
+#   taskList.sort_by {|i| i.assignee.name}.each { |task| usersInThisProject << task.assignee.name }
+#   return usersInThisProject.uniq!
+# end
+
 #get users from Asana
 # users = Asana::User.all
 
