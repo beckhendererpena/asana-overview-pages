@@ -68,9 +68,7 @@ get '/Milestones' do
 
   @active_project_data = [] #an array to be filled with hashes for each project
 
-  $asana_tag = "MILESTONE"
-
-  $test_project = @active_projects
+  $asana_tag = "MILESTONE" #will make this a user input option later
 
   active_projects.each do |e| 
 
