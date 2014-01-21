@@ -103,6 +103,8 @@ get '/Milestones' do
 
           stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
+          #gets stories for comments - I don't think we'll use this in this Milestones version, but will use for individual project pages.
+
           if stories.any?  
             stories["data"].each do |story|
               if story["type"] == "comment"
@@ -111,9 +113,12 @@ get '/Milestones' do
             end
           end
 
+
           #test putting something into a task
           currentTask["comments"] = collected_comments  #I think I can work it out with this...
 
+          #gets followers
+          
           #put followers and story info into tasks - make a new hash that will be inside of project["tasks"] IN each project.  project["tasks"] is an array of tasks... how to I get associated info in with each task??????????????????????????
 
           filtered_tasks.push(currentTask) #push the task to the filtered array

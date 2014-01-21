@@ -29,7 +29,8 @@
                 %p.team_wrapper
                   %span.team> Team:
                   \
-                  %span.names= t["followers"]
+                  - t["followers"].each do |follower|
+                    %span.names= follower["id"]
                 %p.p-1
                   %span> Due Date:
                   \ 
