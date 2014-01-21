@@ -68,7 +68,7 @@ get '/Milestones' do
 
   @active_project_data = [] #an array to be filled with hashes for each project
 
-  $asana_tag = "MILESTONE"
+  $asana_tag = "MILESTONE" #will make this a user input option later
 
   $test_project = @active_projects
 
