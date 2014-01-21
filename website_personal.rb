@@ -70,8 +70,6 @@ get '/Milestones' do
 
   $asana_tag = "MILESTONE" #will make this a user input option later
 
-  $test_project = @active_projects
-
   active_projects.each do |e| 
 
     #make a new hash to store project data in
