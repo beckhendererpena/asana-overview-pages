@@ -1,14 +1,14 @@
  body {
    padding-left: 0;
    padding-right: 0;
+   line-height: 20px;
  }
  .container .heading {
-   margin: 40px 0px 18px 12px;
-   border-bottom: 1px solid #36E2BE;
+   margin: 40px 0px 0 12px;
    padding-bottom: 3px;
  }
  .container .row-fluid .span12 div.div-1 {
-   margin: 40px 20px 60px 0px;
+   margin: 10px 20px 60px 0px;
  }
  .container .row-fluid .span12 .div-1 .page-header {
    padding: 0px;
@@ -43,13 +43,15 @@
 /*added this too*/
 h4 {
    display: inline;
+   color: #36e2be;
+   text-decoration: none;
  }
  /*added this myself*/
 .container {
-   margin-top: 50px;
+   margin-top: 40px;
  }
 p.team_wrapper {
-   margin: 0 0 10px 13px;
+   margin: 0 0 0px 13px;
  }
 
 .team {
