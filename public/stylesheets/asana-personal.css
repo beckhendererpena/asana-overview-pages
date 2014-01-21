@@ -20,7 +20,7 @@
    font-weight: normal;
    color: #555555;
    font-family:"helvetica neue";
-   font-size: 35px;
+   font-size: 27px;
  }
  .container .row-fluid .span12 .div-1 p.p-1 {
    margin: 0px 0px 10px 12px;
@@ -48,6 +48,7 @@ h4 {
    display: inline;
    color: #36e2be;
    text-decoration: none;
+   font-size: 32px;
  }
  /*added this myself*/
 .container {
