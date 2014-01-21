@@ -99,24 +99,27 @@ get '/Milestones' do
         #check the name of the tag
         if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   #this is limited... will not work if task has multiple tags - bleh.
           #if it's the one we want, put it in the filtered_tasks array #would any? work here? "data"].any? {|tag|["name"] == "MILESTONE"} 
-          currentTask = milestones.find { |task| task["id"] == id.to_i} #returns task object, whatever that is
+          currentTask = milestones.find { |task| task["id"] == id.to_i} #returns task object, a hash
 
           stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
           if stories.any?  
-          stories["data"].each do |story|
-            if story["type"] == "comment"
-              collected_comments.push(story)
+            stories["data"].each do |story|
+              if story["type"] == "comment"
+                collected_comments.push(story)
+              end
             end
           end
-        end
 
-        #put followers and story info into tasks - make a new hash that will be inside of project["tasks"] IN each project.  project["tasks"] is an array of tasks... how to I get associated info in with each task??????????????????????????
+          #test putting something into a task
+          currentTask["comments"] = collected_comments  #I think I can work it out with this...
+
+          #put followers and story info into tasks - make a new hash that will be inside of project["tasks"] IN each project.  project["tasks"] is an array of tasks... how to I get associated info in with each task??????????????????????????
 
           filtered_tasks.push(currentTask) #push the task to the filtered array
         end  
 
-      end
+      end #end of task loop
 
       #add_followers to task(id)
       followers = []
