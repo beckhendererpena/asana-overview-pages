@@ -33,6 +33,7 @@
    font-size: 16px;
    line-height: 25px;
    margin: 0px 0px 36px 12px;
+   white-space: inherit;
    /*white-space: pre-line;*/
  }
  .container-fluid {
