@@ -52,6 +52,18 @@ get '/User/:id' do
     end
 
     #should I add subtasks?  Can I?
+
+
+    #comments
+    #gets stories for comments - I don't think we'll use this in this Milestones version, but will use for individual project pages.
+
+          # if stories.any?  
+          #   stories["data"].each do |story|
+          #     if story["type"] == "comment"
+          #       collected_comments.push(story)
+          #     end
+          #   end
+          # end
   end
 
   haml :personal, :layout => false
@@ -81,8 +93,6 @@ get '/Milestones' do
     #parse the list for milestones
     milestones = all_tasks["data"].select { |task| task["tags"].length >= 1 && task["completed"] == false} 
 
-    #show comments too??  or just update in notes?
-
     #some arrays we are gonna need, at least temporarily
     filtered_tasks = []
     collected_comments = []
@@ -103,33 +113,22 @@ get '/Milestones' do
 
           stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
-          #gets stories for comments - I don't think we'll use this in this Milestones version, but will use for individual project pages.
-
-          if stories.any?  
-            stories["data"].each do |story|
-              if story["type"] == "comment"
-                collected_comments.push(story)
-              end
-            end
-          end
-
-
           #test putting something into a task
           currentTask["comments"] = collected_comments  #I think I can work it out with this...
 
-          #gets followers
-          
-          #put followers and story info into tasks - make a new hash that will be inside of project["tasks"] IN each project.  project["tasks"] is an array of tasks... how to I get associated info in with each task??????????????????????????
+          currentTaskArray = []
+          currentTaskArray.push(currentTask)
+
+          #gets followers into task
+          followers = [] #to get filled with strings
+          get_followers_from_tasks(currentTaskArray, followers) #returns a bunch of strings and puts them in an array
+          currentTask["follower_names"] = followers 
 
           filtered_tasks.push(currentTask) #push the task to the filtered array
         end  
 
       end #end of task loop
 
-      #add_followers to task(id)
-      followers = []
-      get_followers_from_tasks(filtered_tasks, followers)
-      project["followers"] = followers
       #put that data into an array, for looping through in HAML
       project["tasks"] = filtered_tasks   #.sort_by! {| task | task["due_on"] } 
       project["comments"] = collected_comments  #project["tasks"]["comments"]  

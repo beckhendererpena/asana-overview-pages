@@ -69,3 +69,7 @@ p.team_wrapper {
    height: 142px;
    background-repeat: no-repeat;
 }
+
+.names {
+   padding-right: 10px;
+}
