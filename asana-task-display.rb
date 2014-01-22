@@ -52,18 +52,6 @@ get '/User/:id' do
     end
 
     #should I add subtasks?  Can I?
-
-
-    #comments
-    #gets stories for comments - I don't think we'll use this in this Milestones version, but will use for individual project pages.
-
-          # if stories.any?  
-          #   stories["data"].each do |story|
-          #     if story["type"] == "comment"
-          #       collected_comments.push(story)
-          #     end
-          #   end
-          # end
   end
 
   haml :personal, :layout => false
@@ -108,7 +96,7 @@ get '/Milestones' do
 
         #check the name of the tag
         if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   #this is limited... will not work if task has multiple tags - bleh.
-          #if it's the one we want, put it in the filtered_tasks array #would any? work here? "data"].any? {|tag|["name"] == "MILESTONE"} 
+          
           currentTask = milestones.find { |task| task["id"] == id.to_i} #returns task object, a hash
 
           stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
@@ -131,9 +119,6 @@ get '/Milestones' do
 
       #put that data into an array, for looping through in HAML
       project["tasks"] = filtered_tasks   #.sort_by! {| task | task["due_on"] } 
-      project["comments"] = collected_comments  #project["tasks"]["comments"]  
-
-      #at this point followers and comments are part of the project, not the specific task - FIX THAT
 
       @active_project_data.push(project)
     end
