@@ -79,7 +79,7 @@ post '/userInput' do
 
   $key = params[:key]
   $tag = params[:tag]
-  redirect_to('/Milestones')
+  redirect to('/test')
 end
 
 
