@@ -169,7 +169,10 @@ get '/Milestones' do
 end  
 
 
+get '/test' do
 
+  haml :test, :layout => false
+end
 
 get '/John' do 
   

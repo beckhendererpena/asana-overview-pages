@@ -11,6 +11,12 @@
     %link{href: "/stylesheets/project.css", media: "screen", rel: "stylesheet", type: "text/css"}/
     %link{href: "/stylesheets/asana-personal.css", media: "screen", rel: "stylesheet", type: "text/css"}/
     %link{href: "/css/input.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %script{:type => "text/javascript", :src  => "https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"}
+    :javascript
+      $(document).ready( function() {
+        $('form, .instructions').hide();
+        $('form, .instructions').fadeIn(600);
+      } );
 #landing.container
   %h1.input Asana Task-by-Tag Viewer  
   %p.instructions Enter your ASANA API key and the tag you want to sort your tasks by in the form below.  Currently, only tasks in projects that are labled dark green will be displayed.

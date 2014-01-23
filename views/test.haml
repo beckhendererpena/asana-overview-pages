@@ -1,4 +1,15 @@
+!!!
+%html{lang: "en"}
+  %head
+
+    %link{href: "/js/effects.js", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %script{:type => "text/javascript", :src  => "https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"}
+    :javascript
+      $(document).ready( function() {
+        $('body').hide();
+        $('body').fadeIn("slow");
+      } );
+
 %h1 Royale Digital  
 
-%p= @test_param
-%p= @test_param2
+%p.test Here is some copy to show on the page.
