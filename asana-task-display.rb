@@ -1,7 +1,7 @@
 require 'rubygems'  
 require 'sinatra'  
-require 'Haml'
-require 'Typhoeus'
+require 'haml'
+require 'typhoeus'
 require 'json'
 
 # Asana.configure do |client|
