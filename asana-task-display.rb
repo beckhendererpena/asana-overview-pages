@@ -9,6 +9,8 @@ require 'json'
 #   client.api_key = '4tuQrdX.5djpapCXlKooicNrUgx0zbeY'
 # end
 
+$key = ""
+$tag = ""
 
 ######################################################   Functions
 
@@ -27,7 +29,7 @@ end
 get '/User/:id' do 
   
   user_id = params[:id].to_i
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body)
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
 
   active_projects = all_projects["data"].select { |e| e["color"] == "dark-green" }
 
@@ -69,6 +71,25 @@ get '/User/:id' do
 end  
 
 
+get '/userInput' do
+  
+  haml :input, :layout => false
+end
+
+post '/userInput' do
+  
+  $key = params[:name]
+  redirect to('/Milestones')
+
+end
+
+
+
+get '/test' do
+  @test_param = $key
+
+  haml :test, :layout => false
+end
 
 
 get '/Milestones' do 
@@ -116,7 +137,8 @@ get '/Milestones' do
           stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
           #clean up notes
-          currentTask["notes"].strip!
+          currentTask["notes"].gsub!("\n", "<br/>")
+
 
           #a hack or messy way to get current task into an array, since my function below takes an array
           currentTaskArray = []
