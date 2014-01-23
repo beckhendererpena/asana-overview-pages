@@ -31,10 +31,11 @@
                   \
                   - t["follower_names"].each do |follower|
                     %span.names #{follower}
-                %p.p-1
-                  %span> Due Date:
-                  \ 
-                  %span.date= t["due_on"]
+                -if t["due_on"] != nil
+                  %p.p-1
+                    %span> Due Date:
+                    \ 
+                    %span.date= t["due_on"]
                 %div
                   %span
                 #dom-elem-24.dom-body-text.paragraph

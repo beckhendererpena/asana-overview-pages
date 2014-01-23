@@ -27,7 +27,7 @@
    font-size: 27px;
  }
  .container .row-fluid .span12 .div-1 p.p-1 {
-   margin: 0px 0px 10px 12px;
+   margin: 0px 0px 0px 12px;
  }
  .container .row-fluid .span12 .div-1 .p-1 span {
    color: #FD6E6E;
@@ -36,7 +36,7 @@
    font-weight: 300;
    font-size: 16px;
    line-height: 25px;
-   margin: 0px 0px 36px 12px;
+   margin: 10px 0px 36px 12px;
    white-space: inherit;
    /*white-space: pre-line;*/
  }
