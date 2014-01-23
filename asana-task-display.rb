@@ -70,20 +70,20 @@ get '/User/:id' do
 end  
 
 
-get '/userInput' do
+get '/' do
   
   haml :input, :layout => false
 end
 
-post '/userInput' do
+post '/' do
 
   $key = params[:key]
   $tag = params[:tag]
-  redirect ('/Milestones')
+  redirect ('/overview')
 end
 
 
-get '/Milestones' do 
+get '/overview' do 
   
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
 
