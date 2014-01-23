@@ -2,5 +2,6 @@
 %h2 API Key
 %form{:action => "/userInput", :method => 'post'} 
   %fieldset
-    %input{:name => 'name'} 
+    %input{:type => "text", :name => "key", :class => "text"}
+    %input{:type => "text", :name => "tag", :class => "text"}
     %input{:type => "submit", :value => "Send", :class => "button"}

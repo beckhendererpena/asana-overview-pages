@@ -9,8 +9,8 @@ require 'json'
 #   client.api_key = '4tuQrdX.5djpapCXlKooicNrUgx0zbeY'
 # end
 
-$key = ""
-$tag = ""
+$key = ""  #can put your API key in here if you want - but should pass it in through a form
+$tag = ""  #this will be the tag you want to display
 
 ######################################################   Functions
 
@@ -78,29 +78,33 @@ end
 
 post '/userInput' do
   
-  $key = params[:name]
+
+  # $key = params[:key]
+  # $tag = params[:tag]
+  # redirect to('/Milestones')
+
+
+  $key = params[:key]
+  $tag = params[:tag]
   redirect to('/Milestones')
-
 end
-
-
 
 get '/test' do
   @test_param = $key
-
+  @test_param2 = $tag
   haml :test, :layout => false
 end
 
 
 get '/Milestones' do 
   
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body)
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
 
   active_projects = all_projects["data"].select { |e| e["color"] == "dark-green" }
 
   @active_project_data = [] #an array to be filled with hashes for each project
 
-  $asana_tag = "MILESTONE" #will make this a user input option later
+  $asana_tag = $tag #will make this a user input option later
 
   active_projects.each do |e| 
 
@@ -108,7 +112,7 @@ get '/Milestones' do
     project = Hash.new
     project["name"] = e["name"]
     project["id"] = e["id"]
-    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,followers,due_on,assignee,tags,completed", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body)
+    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,followers,due_on,assignee,tags,completed", userpwd: $key).body)
     
     #parse the list for milestones
     milestones = all_tasks["data"].select { |task| task["tags"].length >= 1 && task["completed"] == false} 
@@ -126,7 +130,7 @@ get '/Milestones' do
 
       #get tag info for each task
       task_id.each do |id|
-        tag_info = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/tags", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body) #try an option_expand here from Asana  #returns an hash "data" with it's value as an array
+        tag_info = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/tags", userpwd: $key).body) #try an option_expand here from Asana  #returns an hash "data" with it's value as an array
 
         #check the name of the tag
         if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   #this is limited... will not work if task has multiple tags - bleh.
@@ -134,7 +138,7 @@ get '/Milestones' do
 
           currentTask = milestones.find { |task| task["id"] == id.to_i} #returns task object, a hash
 
-          stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
+          stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: $key).body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
           #clean up notes
           currentTask["notes"].gsub!("\n", "<br/>")
