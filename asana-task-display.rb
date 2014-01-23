@@ -83,12 +83,6 @@ post '/userInput' do
   redirect to('/Milestones')
 end
 
-get '/test' do
-  @test_param = $key
-  @test_param2 = $tag
-  haml :test, :layout => false
-end
-
 
 get '/Milestones' do 
   
@@ -116,6 +110,7 @@ get '/Milestones' do
     #some arrays we are gonna need, at least temporarily
     filtered_tasks = []
     collected_comments = []
+    project_has_tags = false
 
     if tags.any?
       
@@ -128,6 +123,8 @@ get '/Milestones' do
 
         #check the name of the tag
         if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   
+
+          
 
           #if it's the one we want, put it in the filtered_tasks array #would any? work here? "data"].any? {|tag|["name"] == "MILESTONE"} 
 
@@ -156,12 +153,13 @@ get '/Milestones' do
 
       end #end of task loop
 
-      #put that data into an array, for looping through in HAML
-      project["tasks"] = filtered_tasks   #.sort_by! {| task | task["due_on"] } 
+      if filtered_tasks.any?
+        #put that data into an array, for looping through in HAML
+        project["tasks"] = filtered_tasks   #.sort_by! {| task | task["due_on"] } 
 
-      #at this point followers and comments are part of the project, not the specific task - FIX THAT
-
-      @active_project_data.push(project)
+        @active_project_data.push(project)
+      end
+      
     end
 
   end

@@ -20,7 +20,7 @@ body {
 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHUlEQVQYV2NkYGCQBOLnQIwXMBJSAJMfVUidcAQAnNwBC1+KgSoAAAAASUVORK5CYII=);
 }
 .instructions {
-	width: 400px;
+	max-width: 400px;
 	margin: auto;
 	margin-bottom: 40px;
 }
@@ -36,3 +36,7 @@ form {
 	margin-bottom: 40px;
 }
 
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 23px;
+}
