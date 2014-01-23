@@ -109,7 +109,7 @@ get '/Milestones' do
     all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,followers,due_on,assignee,tags,completed", userpwd: $key).body)
     
     #parse the list for milestones
-    milestones = all_tasks["data"].select { |task| task["tags"].length >= 1 && task["completed"] == false} 
+    tags = all_tasks["data"].select { |task| task["tags"].length >= 1 && task["completed"] == false} 
 
     #show comments too??  or just update in notes?
 
@@ -117,20 +117,21 @@ get '/Milestones' do
     filtered_tasks = []
     collected_comments = []
 
-    if milestones.any?
+    if tags.any?
       
       #strip out all the task ids
-      task_id = milestones.map { |task| task["id"].to_s }
+      task_id = tags.map { |task| task["id"].to_s }
 
       #get tag info for each task
       task_id.each do |id|
         tag_info = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/tags", userpwd: $key).body) #try an option_expand here from Asana  #returns an hash "data" with it's value as an array
 
         #check the name of the tag
-        if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   #this is limited... will not work if task has multiple tags - bleh.
+        if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   
+
           #if it's the one we want, put it in the filtered_tasks array #would any? work here? "data"].any? {|tag|["name"] == "MILESTONE"} 
 
-          currentTask = milestones.find { |task| task["id"] == id.to_i} #returns task object, a hash
+          currentTask = tags.find { |task| task["id"] == id.to_i} #returns task object, a hash
 
           stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: $key).body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
@@ -142,12 +143,15 @@ get '/Milestones' do
           currentTaskArray = []
           currentTaskArray.push(currentTask)
 
+
           #gets followers into task
           followers = [] #to get filled with strings
           get_followers_from_tasks(currentTaskArray, followers) #returns a bunch of strings and puts them in an array
           currentTask["follower_names"] = followers 
 
           filtered_tasks.push(currentTask) #push the task to the filtered array
+
+          #set some kind of flag that says this project actually has a task in a project with a tag you asked for, and should display that project. If not, don't push in this project...
         end  
 
       end #end of task loop
