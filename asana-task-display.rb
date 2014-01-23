@@ -1,5 +1,4 @@
 require 'rubygems'  
-require 'Asana'
 require 'sinatra'  
 require 'Haml'
 require 'Typhoeus'
