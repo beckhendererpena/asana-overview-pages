@@ -77,12 +77,6 @@ get '/userInput' do
 end
 
 post '/userInput' do
-  
-
-  # $key = params[:key]
-  # $tag = params[:tag]
-  # redirect to('/Milestones')
-
 
   $key = params[:key]
   $tag = params[:tag]

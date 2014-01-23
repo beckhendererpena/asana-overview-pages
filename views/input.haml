@@ -1,7 +1,23 @@
-%h1 Royale Digital  
-%h2 API Key
-%form{:action => "/userInput", :method => 'post'} 
-  %fieldset
-    %input{:type => "text", :name => "key", :class => "text"}
-    %input{:type => "text", :name => "tag", :class => "text"}
-    %input{:type => "submit", :value => "Send", :class => "button"}
+!!!
+%html{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}/
+    %meta{content: "width=device-width, initial-scale=1, maximum-scale=1", name: "viewport"}/
+    %link{href: "https://fonts.googleapis.com/css?family=Limelight|Flamenco|Federo|Yesteryear|Josefin Sans|Spinnaker|Sansita One|Handlee|Droid Sans|Oswald:400,300,700", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/bootstrap.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/bootstrap-responsive.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/common.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/fontawesome.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/project.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/asana-personal.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/input.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+#landing.container
+  %h1.input Asana Tag Viewer  
+  %p.instructions Enter your ASANA API key and the tag you want to sort your tasks by in the form below.  Currently, only tasks in projects that are labled dark green will be displayed.
+  %form{:action => "/userInput", :method => 'post'} 
+    %fieldset
+      %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
+      %br
+      %input{:type => "text", :name => "tag", :class => "text", :placeholder => "Asana Tag"}
+      %br
+      %input{:type => "submit", :value => "Enter", :class => "button"}

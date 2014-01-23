@@ -1,0 +1,32 @@
+h1.input {
+	margin-top: 50px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button {
+	border-radius: 4px;
+	border: none;
+	color: white;
+	font-weight: bold;
+	background-color: #36e2be;
+	height: 40px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	margin-top: 10px;
+	z-index: 10;
+}
+body {
+	font-size: 16px;
+}
+.instructions {
+	margin-bottom: 20px;
+	width: 400px;
+	margin: auto;
+}
+input[type="file"], input[type="image"], input[type="submit"], input[type="reset"], input[type="button"], input[type="radio"], input[type="checkbox"] {
+	z-index: 20;
+}
+button, input, select, textarea {
+}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+	margin-bottom: 20px;
+}
