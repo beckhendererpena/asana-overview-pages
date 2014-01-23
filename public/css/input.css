@@ -14,8 +14,10 @@ h1.input {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 	z-index: 10;
 }
+/*meh? (bg img*/
 body {
 	font-size: 16px;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHUlEQVQYV2NkYGCQBOLnQIwXMBJSAJMfVUidcAQAnNwBC1+KgSoAAAAASUVORK5CYII=);
 }
 .instructions {
 	width: 400px;
@@ -33,3 +35,4 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 form {
 	margin-bottom: 40px;
 }
+
