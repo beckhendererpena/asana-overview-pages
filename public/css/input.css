@@ -12,16 +12,15 @@ h1.input {
 	background-color: #36e2be;
 	height: 40px;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-	margin-top: 10px;
 	z-index: 10;
 }
 body {
 	font-size: 16px;
 }
 .instructions {
-	margin-bottom: 20px;
 	width: 400px;
 	margin: auto;
+	margin-bottom: 40px;
 }
 input[type="file"], input[type="image"], input[type="submit"], input[type="reset"], input[type="button"], input[type="radio"], input[type="checkbox"] {
 	z-index: 20;
