@@ -8,8 +8,9 @@ require 'json'
 #   client.api_key = '4tuQrdX.5djpapCXlKooicNrUgx0zbeY'
 # end
 
-$key = ""  #can put your API key in here if you want - but should pass it in through a form
-$tag = ""  #this will be the tag you want to display
+$key = ""      #can put your API key in here if you want - but should pass it in through a form
+$tag = ""      #this will be the tag you want to display
+$color = ""    #project color
 
 ######################################################   Functions
 
@@ -36,6 +37,7 @@ post '/' do
 
   $key = params[:key]
   $tag = params[:tag]
+  $color = params[:project_color]
   redirect ('/overview')
 end
 
@@ -44,7 +46,7 @@ get '/overview' do
   
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
 
-  active_projects = all_projects["data"].select { |e| e["color"] == "dark-green" }
+  active_projects = all_projects["data"].select { |e| e["color"] == $color }
 
   @active_project_data = [] #to be filled with hashes for each project
 

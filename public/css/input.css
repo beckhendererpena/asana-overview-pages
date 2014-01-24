@@ -31,7 +31,7 @@ input[type="file"], input[type="image"], input[type="submit"], input[type="reset
 button, input, select, textarea {
 }
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
-	margin-bottom: 20px;
+	margin-bottom: 17px;
 }
 form {
 	margin-bottom: 40px;
@@ -40,4 +40,12 @@ form {
 
 h1, h2, h3, h4, h5, h6 {
 	line-height: 23px;
+}
+fieldset {
+}
+
+select, input[type="file"] {
+	height: 30px;
+	*margin-top: 4px;
+	line-height: 30px;
 }

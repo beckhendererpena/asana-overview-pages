@@ -19,11 +19,32 @@
       } );
 #landing.container
   %h1.input Asana Task-by-Tag Viewer  
-  %p.instructions Enter your ASANA API key and the tag you want to sort your tasks by in the form below.  Currently, only tasks in projects that are labled dark green will be displayed.
+  %p.instructions Enter your ASANA API key and the tag you want to sort your tasks by in the form below.  In Asana, label your projects by color, and then pick a color below to determine which projects to look in for tasks.
   %form{:action => "/", :method => 'post'} 
     %fieldset
       %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
       %br
       %input{:type => "text", :name => "tag", :class => "text", :placeholder => "Asana Tag"}
+      %br
+      %select{name: "project_color"}
+        %option{value: "dark-green"} Pick a Project Color
+        %option{value: "dark-green"} Dark Green
+        %option{value: "dark-pink"} Dark Pink
+        %option{value: "dark-blue"} Dark Blue
+        %option{value: "dark-red"} Dark Red
+        %option{value: "dark-teal"} Dark Teal
+        %option{value: "ddark-brown"} Dark Brown
+        %option{value: "dark-orange"} Dark Orange
+        %option{value: "dark-purple"} Dark Purple
+        %option{value: "dark-warm-gray"} Dark Warm Gray
+        %option{value: "light-pink"} Light Pink
+        %option{value: "light-green"} Light Green
+        %option{value: "light-blue"} Light Blue
+        %option{value: "light-red"} Light Red
+        %option{value: "light-teal"} Light Teal
+        %option{value: "light-yellow"} Light Yellow
+        %option{value: "light-orange"} Light Orange
+        %option{value: "light-purple"} Light Purple
+        %option{value: "light-warm-gray"} Light Warm Gray
       %br
       %input{:type => "submit", :value => "Enter", :class => "button"}
