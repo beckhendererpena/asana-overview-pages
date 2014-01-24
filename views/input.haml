@@ -19,7 +19,7 @@
       } );
 #landing.container
   %h1.input Asana Task-by-Tag Viewer  
-  %p.instructions Enter your ASANA API key and the tag you want to sort your tasks by in the form below.  In Asana, label your projects by color, and then pick a color below to determine which projects to look in for tasks.
+  %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks.
   %form{:action => "/", :method => 'post'} 
     %fieldset
       %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
