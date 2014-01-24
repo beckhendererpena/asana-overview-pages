@@ -36,11 +36,11 @@ post '/' do
 
   $key = params[:key]
   $tag = params[:tag]
-  redirect ('/Milestones')
+  redirect ('/overview')
 end
 
 #show the overview
-get '/Milestones' do 
+get '/overview' do 
   
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
 
