@@ -26,21 +26,21 @@ end
 ######################################################   Routes
 
 #input page
-get '/' do
+get '/userInput' do
   
   haml :input, :layout => false
 end
 
 #get parameters for the app
-post '/' do
+post '/userInput' do
 
   $key = params[:key]
   $tag = params[:tag]
-  redirect ('/overview')
+  redirect ('/Milestones')
 end
 
 #show the overview
-get '/overview' do 
+get '/Milestones' do 
   
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
 
