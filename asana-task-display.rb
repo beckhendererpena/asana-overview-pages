@@ -26,13 +26,13 @@ end
 ######################################################   Routes
 
 #input page
-get '/userInput' do
+get '/' do
   
   haml :input, :layout => false
 end
 
 #get parameters for the app
-post '/userInput' do
+post '/' do
 
   $key = params[:key]
   $tag = params[:tag]
