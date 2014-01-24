@@ -20,7 +20,7 @@
 #landing.container
   %h1.input Asana Task-by-Tag Viewer  
   %p.instructions Enter your ASANA API key and the tag you want to sort your tasks by in the form below.  Currently, only tasks in projects that are labled dark green will be displayed.
-  %form{:action => "/userInput", :method => 'post'} 
+  %form{:action => "/", :method => 'post'} 
     %fieldset
       %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
       %br
