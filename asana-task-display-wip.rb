@@ -8,8 +8,9 @@ require 'json'
 #   client.api_key = '4tuQrdX.5djpapCXlKooicNrUgx0zbeY'
 # end
 
-$key = ""  #can put your API key in here if you want - but should pass it in through a form
+$key = "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:"  #can put your API key in here if you want - but should pass it in through a form
 $tag = ""  #this will be the tag you want to display
+$user = ""
 
 ######################################################   Functions
 
@@ -25,9 +26,9 @@ end
 
 ######################################################   Routes
 
-get '/User/:id' do 
+get '/user' do 
   
-  user_id = params[:id].to_i
+  user_id = $user.to_i
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
 
   active_projects = all_projects["data"].select { |e| e["color"] == "dark-green" }
@@ -47,8 +48,17 @@ get '/User/:id' do
 
     #check to see if this user has any tasks assigned to them in this project.  If they do, then do this push.
     if tasksForUser.any?
+
+      tasks_with_dates = tasksForUser.select { |task| task["due_on"] != nil}
+      tasksForUser.delete_if { |task| task["due_on"] != nil}
+
+      tasks_with_dates.sort_by! {| task | task["due_on"] } 
+
+      rearranged_tasks = tasks_with_dates.concat(tasksForUser)
+
       #put that data into an array, for looping through in HAML
-      project["tasks"] = tasksForUser       #.sort_by! {| task | task["due_on"] }    #.reverse!  
+      project["tasks"] = rearranged_tasks
+
       @active_project_data.push(project)
     end
 
@@ -66,7 +76,7 @@ get '/User/:id' do
     #should I add subtasks?  Can I?
   end
 
-  haml :personal, :layout => false
+  haml :personal_user, :layout => false
 end  
 
 
@@ -82,6 +92,12 @@ post '/' do
   redirect ('/overview')
 end
 
+post '/userView' do
+  $key = params[:key]
+  $user = params[:user]
+
+  redirect ('/user')
+end
 
 get '/overview' do 
   
