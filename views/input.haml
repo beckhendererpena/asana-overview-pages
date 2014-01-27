@@ -14,12 +14,13 @@
     %script{:type => "text/javascript", :src  => "https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"}
     :javascript
       $(document).ready( function() {
-        $('form, .instructions').hide();
-        $('form, .instructions').fadeIn(600);
+        $('#landing').hide();
+        $('#landing').fadeIn(600);
       } );
 #landing.container
-  %h1.input Asana Task-by-Tag Viewer  
-  %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks.
+  %h1.input Asana Task Viewer 
+  %h3.input Task-by-Tag 
+  %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks:
   %form{:action => "/", :method => 'post'} 
     %fieldset
       %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
@@ -47,4 +48,14 @@
         %option{value: "light-purple"} Light Purple
         %option{value: "light-warm-gray"} Light Warm Gray
       %br
-      %input{:type => "submit", :value => "Enter", :class => "button"}
+      %input{:type => "submit", :value => "View Tasks by Tag", :class => "button"}
+      %br
+  %h3.input Tasks by User 
+  %p.instructions2 Enter an Asana user ID to see all your tasks by that user:
+  %form{:action => "/userView", :method => 'post'} 
+    %fieldset
+      %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
+      %br
+      %input{:type => "text", :name => "user", :class => "text", :placeholder => "User ID"}
+      %br
+      %input{:type => "submit", :value => "View Tasks by User", :class => "button"}
