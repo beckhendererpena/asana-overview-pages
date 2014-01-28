@@ -37,7 +37,12 @@ post '/' do
 
   $key = params[:key]
   $tag = params[:tag]
-  $color = params[:project_color]
+  $color = ""
+  if params[:project_color] != "none"
+    $color = params[:project_color]
+  else
+    $color = nil
+  end
   redirect ('/overview')
 end
 

@@ -57,3 +57,6 @@ select, input[type="file"] {
 	*margin-top: 4px;
 	line-height: 30px;
 }
+a {
+	position: absolute;
+}
