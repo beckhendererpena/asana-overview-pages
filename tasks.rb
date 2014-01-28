@@ -11,5 +11,9 @@ module Asana
 		  end
 		end
 
+		def complete_task(task_id)
+		  Typhoeus.put("https://app.asana.com/api/1.0/tasks/" + task_id.to_s, body: '{"data": {"completed":true}}', userpwd: $key)
+		end
+
 	end
 end
