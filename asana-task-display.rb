@@ -3,29 +3,18 @@ require 'sinatra'
 require 'haml'
 require 'typhoeus'
 require 'json'
+load 'tasks.rb' #get the Tasks class
 
-# Asana.configure do |client|
-#   client.api_key = '4tuQrdX.5djpapCXlKooicNrUgx0zbeY'
-# end
 
 $key = ""      #can put your API key in here if you want - but should pass it in through a form
 $tag = ""      #this will be the tag you want to display
 $color = ""    #project color
 $user = ""     #use ID, for now - later name
+$tasks = Asana::Tasks.new  #make an instance of the tasks class
 
-######################################################   Functions
-
-def get_followers_from_tasks(tasks, array) #tasks == an array, array == an array
-  tasks.each do |task|
-    task["followers"].each do |follower|
-      #get user name based on user id
-      user = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/" + follower["id"].to_s, userpwd: $key).body)
-      array.push(user["data"]["name"])
-    end
-  end
-end
 
 ######################################################   Routes
+
 
 #input page
 get '/' do
@@ -107,7 +96,7 @@ get '/overview' do
 
           #gets followers into task for "team" list
           followers = [] #to get filled with strings
-          get_followers_from_tasks(currentTaskArray, followers) #returns a bunch of strings and puts them in an array
+          $tasks.get_followers_from_tasks(currentTaskArray, followers) #returns a bunch of strings and puts them in an array
           currentTask["follower_names"] = followers 
 
           #put tasks in the filtered_tasks array
