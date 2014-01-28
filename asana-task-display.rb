@@ -130,7 +130,7 @@ get '/overview' do
   end
 
 
-  haml :personal, :layout => false
+  haml :overview, :layout => false
 end  
 
 #user page
