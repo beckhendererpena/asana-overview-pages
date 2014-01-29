@@ -19,6 +19,7 @@
  .container .row-fluid .span12 .div-1 .page-header {
    padding: 0px;
    margin: 0px 0px 10px 12px;
+   position: relative;
  }
  .container .row-fluid .span12 .div-1 .page-header h1 {
    font-weight: normal;
@@ -104,4 +105,10 @@ input, textarea, .uneditable-input {
 
 h1.input {
    margin-top: 40px;
+}
+
+
+.complete_task{
+   margin-left: 12px;
+
 }

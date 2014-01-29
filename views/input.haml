@@ -19,7 +19,7 @@
       } );
 #landing.container
   %h1.input Asana Task Viewer 
-  %h3.input Task-by-Tag 
+  %h3.input Tasks by Tag 
   %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks:
   %form{:action => "/", :method => 'post'} 
     %fieldset
@@ -29,6 +29,7 @@
       %br
       %select{name: "project_color"}
         %option{value: "dark-green"} Pick a Project Color
+        %option{value: "none"} No Color
         %option{value: "dark-green"} Dark Green
         %option{value: "dark-pink"} Dark Pink
         %option{value: "dark-blue"} Dark Blue
