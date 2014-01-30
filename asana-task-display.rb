@@ -28,7 +28,7 @@ get '/complete_task/:id' do |id|
   #post the call to complete the task
   $tasks.complete_task(task_id)
   #go get tasks again, this time updated
-  redirect ('/overview')
+  redirect ('/user')
 
 end
 
