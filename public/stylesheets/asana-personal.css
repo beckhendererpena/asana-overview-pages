@@ -31,7 +31,6 @@
    margin: 0px 0px 0px 12px;
  }
  .container .row-fluid .span12 .div-1 .p-1 span {
-   color: #FD6E6E;
  }
  .container .row-fluid .span12 .div-1 p.p-2 {
    font-weight: 300;
@@ -48,6 +47,15 @@
 
  .date {
   color: #666 !important;
+}
+
+.dateTitle {
+color: #FD6E6E;
+}
+
+.subtask {
+   margin-left: 14px;
+   color: #666;
 }
 /*added this too*/
 h4 {
@@ -111,4 +119,9 @@ h1.input {
 .complete_task{
    margin-left: 12px;
 
+}
+
+h5 {
+   font-style: italic;
+   margin-left: 14px;
 }

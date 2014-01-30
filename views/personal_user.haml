@@ -34,7 +34,7 @@
                   %h1= t["name"]
                 -if t["due_on"] != nil
                   %p.p-1
-                    %span> Due Date:
+                    %span.dateTitle> Due Date:
                     \ 
                     %span.date= t["due_on"]
                 %a.complete_task{href: "/complete_task/#{t["id"]}"} Mark Complete
@@ -45,11 +45,14 @@
                 / %span
                 %p.p-2= t["notes"]
                 -if t["subtasks"] != nil
+                  %h5 Subtasks
                   -t["subtasks"].each do |subtask|
+                    / -if subtask["completed"] == false
                     %p.p-1
-                      %span> subtasks:
+                      %span> 
                       \ 
-                      %span.date= subtask["name"]
+                      %span.subtask= subtask["name"]
+                      %a.complete_task{href: "/complete_task/#{subtask["id"]}"} Mark Complete
 
 
     
