@@ -45,14 +45,14 @@
                 / %span
                 %p.p-2= t["notes"]
                 -if t["subtasks"] != nil
-                  %h5 Subtasks
-                  -t["subtasks"].each do |subtask|
-                    / -if subtask["completed"] == false
-                    %p.p-1
-                      %span> 
-                      \ 
-                      %span.subtask= subtask["name"]
-                      %a.complete_task{href: "/complete_task/#{subtask["id"]}"} Mark Complete
+                  %div.subs
+                    %h5 Subtasks
+                    -t["subtasks"].each do |subtask|
+                      %p.p-1
+                        %span> 
+                        \ 
+                        %span.subtask= subtask["name"]
+                        %a.complete_task{href: "/complete_task/#{subtask["id"]}"} Mark Complete
 
 
     

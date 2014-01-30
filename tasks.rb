@@ -16,9 +16,11 @@ module Asana
 		end
 
 		def get_subtasks(task_id, subtasks)
-		  task_subtasks = JSON.parse(Typhoeus.get("https://app.asana.com/api/1.0/tasks/" + task_id.to_s + "/subtasks", userpwd: $key).body) #returns a hash with an array called "data" inside
+		  task_subtasks = JSON.parse(Typhoeus.get("https://app.asana.com/api/1.0/tasks/" + task_id.to_s + "/subtasks?opt_fields=completed,name", userpwd: $key).body) #returns a hash with an array called "data" inside
 		  task_subtasks["data"].each do |t|
-			subtasks.push(t)  
+			if t["completed"] == false
+			  subtasks.push(t) 
+			end 
 		  end
 		end
 

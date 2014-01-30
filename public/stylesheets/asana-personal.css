@@ -53,6 +53,11 @@
 color: #FD6E6E;
 }
 
+.subs {
+   margin-bottom: 36px;
+   margin-top: -24px
+}
+
 .subtask {
    margin-left: 14px;
    color: #666;
@@ -124,4 +129,5 @@ h1.input {
 h5 {
    font-style: italic;
    margin-left: 14px;
+   margin-top: 0;
 }
