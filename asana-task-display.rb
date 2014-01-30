@@ -154,7 +154,7 @@ get '/user' do
     project = Hash.new
     project["name"] = e["name"]
     project["id"] = e["id"]
-    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name", userpwd: "4tuQrdX.5djpapCXlKooicNrUgx0zbeY:").body)
+    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name", userpwd: $key).body)
     
     #parse the full list of tasks to see if there are any for the user
     tasksForUser = all_tasks["data"].select { |task| task["assignee"] != nil && task["completed"] == false && task["assignee"]["id"] == user_id}
@@ -169,6 +169,15 @@ get '/user' do
       tasks_with_dates.sort_by! {| task | task["due_on"] } 
 
       rearranged_tasks = tasks_with_dates.concat(tasksForUser)
+
+      #check through tasks for subtasks, and add them to the task, if they exist
+      rearranged_tasks.each do |task|
+        subtasks = []
+        $tasks.get_subtasks(task["id"], subtasks)
+        if subtasks.length >= 1
+          task["subtasks"] = subtasks #an array of hashes
+        end
+      end
 
       #put that data into an array, for looping through in HAML
       project["tasks"] = rearranged_tasks

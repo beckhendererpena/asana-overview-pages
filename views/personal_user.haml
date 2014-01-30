@@ -44,6 +44,12 @@
                 / %span
                 / %span
                 %p.p-2= t["notes"]
+                -if t["subtasks"] != nil
+                  -t["subtasks"].each do |subtask|
+                    %p.p-1
+                      %span> subtasks:
+                      \ 
+                      %span.date= subtask["name"]
 
 
     

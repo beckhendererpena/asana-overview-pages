@@ -15,5 +15,12 @@ module Asana
 		  Typhoeus.put("https://app.asana.com/api/1.0/tasks/" + task_id.to_s, body: '{"data": {"completed":true}}', userpwd: $key)
 		end
 
+		def get_subtasks(task_id, subtasks)
+		  task_subtasks = JSON.parse(Typhoeus.get("https://app.asana.com/api/1.0/tasks/" + task_id.to_s + "/subtasks", userpwd: $key).body) #returns a hash with an array called "data" inside
+		  task_subtasks["data"].each do |t|
+			subtasks.push(t)  
+		  end
+		end
+
 	end
 end
