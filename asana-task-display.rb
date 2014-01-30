@@ -23,11 +23,11 @@ get '/' do
 end
 
 get '/complete_task/:id' do |id|
-  #get the tasks id
-  task_id = id
-  #post the call to complete the task
-  $tasks.complete_task(task_id)
-  #go get tasks again, this time updated
+  # #get the tasks id
+  # task_id = id
+  # #post the call to complete the task
+  # $tasks.complete_task(task_id)
+  # #go get tasks again, this time updated
   redirect ('/overview')
 
 end
