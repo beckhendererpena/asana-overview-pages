@@ -37,7 +37,7 @@
                     %span.dateTitle> Due Date:
                     \ 
                     %span.date= t["due_on"]
-                %a.complete_task{href: "/complete_task/#{t["id"]}"} Mark Complete
+                  %a.complete_task{href: "/complete_task/#{t["id"]}"} Mark Complete
                 %div
                   %span
                 #dom-elem-24.dom-body-text.paragraph
@@ -48,11 +48,15 @@
                   %div.subs
                     %h5 Subtasks
                     -t["subtasks"].each do |subtask|
-                      %p.p-1
+                      %p.p-1.subtask_wrapper
                         %span> 
                         \ 
                         %span.subtask= subtask["name"]
-                        %a.complete_task{href: "/complete_task/#{subtask["id"]}"} Mark Complete
-
-
+                        -if subtask["due_on"] != nil
+                          %br
+                          %span.dateTitle.subtask_date> Due Date:
+                          \ 
+                          %span.date= subtask["due_on"]
+                        %br
+                        %a.complete_subtask{href: "/complete_task/#{subtask["id"]}"} Mark Complete
     

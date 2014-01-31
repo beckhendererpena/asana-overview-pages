@@ -125,9 +125,21 @@ h1.input {
    margin-left: 12px;
 
 }
+.complete_subtask{
+   margin-left: 21px;
+
+}
 
 h5 {
    font-style: italic;
    margin-left: 14px;
    margin-top: 0;
+}
+
+.subtask_date {
+   margin-left: 21px;
+}
+
+.subtask_wrapper {
+   padding-bottom: 20px;
 }

@@ -29,7 +29,6 @@ get '/complete_task/:id' do |id|
   $tasks.complete_task(task_id)
   #go get tasks again, this time updated
   redirect ('/user')
-
 end
 
 #get parameters for the app
@@ -56,7 +55,7 @@ end
 #show the overview
 get '/overview' do 
   
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,follower_names", userpwd: $key).body)
 
   active_projects = all_projects["data"].select { |e| e["color"] == $color }
 
@@ -163,19 +162,15 @@ get '/user' do
     if tasksForUser.any?
 
       #write a function that taks the array and sorts by date?  and then use it in user milestone pages too
-      tasks_with_dates = tasksForUser.select { |task| task["due_on"] != nil}
-      tasksForUser.delete_if { |task| task["due_on"] != nil}
-
-      tasks_with_dates.sort_by! {| task | task["due_on"] } 
-
-      rearranged_tasks = tasks_with_dates.concat(tasksForUser)
+      rearranged_tasks = $tasks.order_tasks_by_date(tasksForUser)
+      
 
       #check through tasks for subtasks, and add them to the task, if they exist
       rearranged_tasks.each do |task|
         subtasks = []
         $tasks.get_subtasks(task["id"], subtasks)
         if subtasks.length >= 1
-          task["subtasks"] = subtasks #an array of hashes
+          task["subtasks"] = $tasks.order_tasks_by_date(subtasks) #an array of hashes
         end
       end
 
