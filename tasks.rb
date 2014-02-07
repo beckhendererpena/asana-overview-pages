@@ -5,18 +5,18 @@ module Asana
 		  tasks.each do |task|
 		    task["followers"].each do |follower|
 		      #get user name based on user id
-		      user = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/" + follower["id"].to_s, userpwd: $key).body)
+		      user = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/" + follower["id"].to_s, headers: {Authorization: "Bearer " + $token}).body)
 		      array.push(user["data"]["name"])
 		    end
 		  end
 		end
 
 		def complete_task(task_id)
-		  Typhoeus.put("https://app.asana.com/api/1.0/tasks/" + task_id.to_s, body: '{"data": {"completed":true}}', userpwd: $key)
+		  Typhoeus.put("https://app.asana.com/api/1.0/tasks/" + task_id.to_s, body: '{"data": {"completed":true}}', headers: {Authorization: "Bearer " + $token})
 		end
 
 		def get_subtasks(task_id, subtasks)
-		  task_subtasks = JSON.parse(Typhoeus.get("https://app.asana.com/api/1.0/tasks/" + task_id.to_s + "/subtasks?opt_fields=completed,name,due_on", userpwd: $key).body) #returns a hash with an array called "data" inside
+		  task_subtasks = JSON.parse(Typhoeus.get("https://app.asana.com/api/1.0/tasks/" + task_id.to_s + "/subtasks?opt_fields=completed,name,due_on", headers: {Authorization: "Bearer " + $token}).body) #returns a hash with an array called "data" inside
 		  task_subtasks["data"].each do |t|
 			if t["completed"] == false
 			  subtasks.push(t) 

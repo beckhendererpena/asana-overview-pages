@@ -23,12 +23,12 @@
   %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks:
   %form{:action => "/", :method => 'post'} 
     %fieldset
-      %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
-      %br
+      / %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
+      / %br
       %input{:type => "text", :name => "tag", :class => "text", :placeholder => "Asana Tag"}
       %br
       %select{name: "project_color"}
-        %option{value: "dark-green"} Pick a Project Color
+        %option{value: "none"} Pick a Project Color
         %option{value: "none"} No Color
         %option{value: "dark-green"} Dark Green
         %option{value: "dark-pink"} Dark Pink
@@ -51,12 +51,19 @@
       %br
       %input{:type => "submit", :value => "View Tasks by Tag", :class => "button"}
       %br
-  %h3.input Tasks by User 
-  %p.instructions2 Enter an Asana user ID to see all your tasks by that user:
+  %h3.input Your Tasks
+  %p.instructions2 See a simple and clean list of your tasks (and subtasks):
   %form{:action => "/userView", :method => 'post'} 
     %fieldset
-      %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
-      %br
-      %input{:type => "text", :name => "user", :class => "text", :placeholder => "User ID"}
-      %br
-      %input{:type => "submit", :value => "View Tasks by User", :class => "button"}
+      %input{:type => "submit", :value => "View Your Tasks", :class => "button"}
+  / Can use this for a list of other users?
+
+  / %h3.input Tasks by User 
+  / %p.instructions2 Enter an Asana user ID to see all your tasks by that user:
+  / %form{:action => "/userView", :method => 'post'} 
+  /   %fieldset
+  /     / %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
+  /     / %br
+  /     / %input{:type => "text", :name => "user", :class => "text", :placeholder => "User ID"}
+  /     / %br
+  /     %input{:type => "submit", :value => "View Your Tasks", :class => "button"}
