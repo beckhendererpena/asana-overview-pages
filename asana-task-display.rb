@@ -32,10 +32,11 @@ get '/' do
   if session[:auth]
     redirect '/success'
   else
-    <<-HTML
-    <p>Sinatra demo app for Asana OAuth</p>
-    <a href='/auth/asana'><img src="/asana-oauth-button.png"</a>
-    HTML
+    redirect '/auth/asana'
+    # <<-HTML
+    # <p>Sinatra demo app for Asana OAuth</p>
+    # <a href='/auth/asana'><img src="/asana-oauth-button.png"</a>
+    # HTML
   end
 end
 
@@ -76,10 +77,9 @@ get '/complete_task/:id' do |id|
   redirect ('/user')
 end
 
-#get parameters for the app
+#get parameters for the overview app
 post '/' do
 
-  # $key = params[:key] #don't need?
   $tag = params[:tag]
   $color = ""
   if params[:project_color] != "none"
@@ -91,7 +91,7 @@ post '/' do
 end
 
 post '/userView' do
-  # $key = params[:key]
+
   # $user = params[:user]
 
   redirect ('/user')

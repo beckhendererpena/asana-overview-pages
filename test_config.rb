@@ -17,10 +17,11 @@ get '/' do
   if session[:auth]
     redirect '/success'
   else
-    <<-HTML
-    <p>Sinatra demo app for Asana OAuth</p>
-    <a href='/auth/asana'><img src="/asana-oauth-button.png"</a>
-    HTML
+  	redirect '/auth/asana'
+    # <<-HTML
+    # <p>Sinatra demo app for Asana OAuth</p>
+    # <a href='/auth/asana'><img src="/asana-oauth-button.png"</a>
+    # HTML
   end
 end
 
