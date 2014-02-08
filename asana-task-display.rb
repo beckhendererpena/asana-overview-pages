@@ -6,10 +6,7 @@ require 'json'
 require './tasks' #get the Tasks class
 require 'omniauth-asana'
 require 'ostruct'
-require './Asana_Config'
-
-# $ASANA_CLIENT_ID = Asana_Config::ASANA_CLIENT_ID
-# $ASANA_CLIENT_SECRET = Asana_Config::ASANA_CLIENT_SECRET
+# require './Asana_Config'
 
 $ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']
 $ASANA_CLIENT_SECRET = ENV['ASANA_CLIENT_SECRET']
