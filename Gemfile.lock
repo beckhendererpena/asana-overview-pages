@@ -4,11 +4,36 @@ GEM
     ethon (0.6.2)
       ffi (>= 1.3.0)
       mime-types (~> 1.18)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
     haml (4.0.4)
       tilt
+    hashie (2.0.5)
     json (1.8.1)
+    jwt (0.1.11)
+      multi_json (>= 1.5)
     mime-types (1.23)
+    multi_json (1.7.7)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    oauth2 (0.9.3)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 0.1.8)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
+    omniauth (1.2.1)
+      hashie (>= 1.2, < 3)
+      rack (~> 1.0)
+    omniauth-asana (0.0.1)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-oauth2 (1.1.2)
+      faraday (>= 0.8, < 0.10)
+      multi_json (~> 1.3)
+      oauth2 (~> 0.9.3)
+      omniauth (~> 1.2)
     rack (1.5.2)
     sinatra (1.1.0)
       rack (~> 1.1)
@@ -23,5 +48,6 @@ PLATFORMS
 DEPENDENCIES
   haml
   json
+  omniauth-asana
   sinatra (= 1.1.0)
   typhoeus
