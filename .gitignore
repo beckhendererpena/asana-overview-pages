@@ -5,6 +5,6 @@
 #   git config --global core.excludesfile ~/.gitignore_global
 
 # Ignore
-./Asana_Config.rb
+Asana_Config.rb
 
 *.DS_STORE

@@ -21,6 +21,7 @@ end
 $tag = ""      #this will be the tag you want to display
 $color = ""    #project color
 $user = ""     #use ID, for now - later name
+$alt_user = ""
 $token = ""
 $tasks = Asana::Tasks.new  #make an instance of the tasks class
 
@@ -64,8 +65,12 @@ end
 
 #input page
 get '/success' do
+  #get list of user names and ids and store them in an array (will be an array with hashes inside)
+  all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+  #then loop through that array in haml
   
-  haml :input, :layout => false
+
+  haml :input, :layout => false, :locals => {:all_users => all_users}
 end
 
 get '/complete_task/:id' do |id|
@@ -79,7 +84,7 @@ end
 
 #get parameters for the overview app
 post '/' do
-
+  
   $tag = params[:tag]
   $color = ""
   if params[:project_color] != "none"
@@ -90,9 +95,27 @@ post '/' do
   redirect ('/overview')
 end
 
-post '/userView' do
+post '/user_view' do
+  $user = session[:uid]
+  $color = ""
+  if params[:project_color] != "none"
+    $color = params[:project_color]
+  else
+    $color = nil
+  end
+  redirect ('/user')
 
-  # $user = params[:user]
+end
+
+
+post '/alt_user_view' do
+  $color = ""
+  if params[:project_color] != "none"
+    $color = params[:project_color]
+  else
+    $color = nil
+  end
+  $user = params[:pick_a_user]
 
   redirect ('/user')
 end
@@ -189,8 +212,12 @@ get '/user' do
   user_id = $user.to_i
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
 
-  active_projects = all_projects["data"].select { |e| e["color"] == "dark-green" }
-
+  if $color != nil 
+    active_projects = all_projects["data"].select { |e| e["color"] == $color }
+  else
+    active_projects = all_projects["data"]
+  end
+    
   @active_project_data = []
 
   active_projects.each do |e| 
