@@ -1,0 +1,5 @@
+module Asana_Config
+   ASANA_CLIENT_ID = 9964655308375
+   ASANA_CLIENT_SECRET = '71afb3cc7e0a4c9cdf65bb1706430118'
+   PORT=4567
+end
