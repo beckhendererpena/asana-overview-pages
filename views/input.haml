@@ -28,7 +28,7 @@
       %input{:type => "text", :name => "tag", :class => "text", :placeholder => "Asana Tag"}
       %br
       %select{name: "project_color"}
-        %option{value: "none"} Pick a Project Color
+        %option{value: "none"} Pick a Project Label Color
         %option{value: "none"} No Color
         %option{value: "dark-green"} Dark Green
         %option{value: "dark-pink"} Dark Pink
@@ -56,7 +56,7 @@
   %form{:action => "/user_view", :method => 'post'} 
     %fieldset
       %select{name: "project_color"}
-        %option{value: "none"} Pick a Project Color
+        %option{value: "none"} Pick a Project Label Color
         %option{value: "none"} No Color
         %option{value: "dark-green"} Dark Green
         %option{value: "dark-pink"} Dark Pink
@@ -89,7 +89,7 @@
       / %input{:type => "text", :name => "user", :class => "text", :placeholder => "User ID"}
       / / %br
       %select{name: "project_color"}
-        %option{value: "none"} Pick a Project Color
+        %option{value: "none"} Pick a Project Label Color
         %option{value: "none"} No Color
         %option{value: "dark-green"} Dark Green
         %option{value: "dark-pink"} Dark Pink
