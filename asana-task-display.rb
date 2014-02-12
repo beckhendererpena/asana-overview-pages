@@ -45,7 +45,7 @@ get '/auth/:name/callback' do
   session[:uid] = auth.uid
   session[:user] = auth.info
   $user = session[:uid]
-  $token = session[:auth].token
+  $token = session[:auth][:token]
   redirect '/'
 end
 
@@ -63,7 +63,7 @@ end
 #input page
 get '/success' do
   #get list of user names and ids and store them in an array (will be an array with hashes inside)
-  all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+  all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth][:token]}).body)
   #then loop through that array in haml
   
 
