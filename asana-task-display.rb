@@ -30,11 +30,12 @@ $tasks = Asana::Tasks.new  #make an instance of the tasks class
 
 #Asana Connect page
 get '/' do
-  # if session[:auth]
-  #   redirect '/success'
-  # else
+  if session[:auth]
+    redirect '/success'
+  else
     redirect '/auth/asana'
-  # end
+   
+  end
 end
 
 #sign in
