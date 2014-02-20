@@ -6,7 +6,7 @@ require 'json'
 require './tasks' #get the Tasks class
 require 'omniauth-asana'
 require 'ostruct'
-# require './Asana_Config'
+require './Asana_Config'
 
 $ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']
 $ASANA_CLIENT_SECRET = ENV['ASANA_CLIENT_SECRET']
@@ -27,6 +27,14 @@ $tasks = Asana::Tasks.new  #make an instance of the tasks class
 
 
 ######################################################   Routes
+
+#before?
+before '/success' do
+  if session[:auth]
+  else
+    redirect '/auth/asana'
+  end
+end
 
 #Asana Connect page
 get '/' do
