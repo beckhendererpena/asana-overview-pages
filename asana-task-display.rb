@@ -29,12 +29,12 @@ $tasks = Asana::Tasks.new  #make an instance of the tasks class
 ######################################################   Routes
 
 #before?
-before '/success' do
-  if session[:auth]
-  else
-    redirect '/auth/asana'
-  end
-end
+# before '/success' do
+#   if session[:auth]
+#   else
+#     redirect '/auth/asana'
+#   end
+# end
 
 #Asana Connect page
 get '/' do
