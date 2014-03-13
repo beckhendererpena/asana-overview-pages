@@ -19,7 +19,7 @@
       } );
 #landing.container
   %h1.input Asana Task Viewer 
-  %h3.input Tasks by Tag 
+  %h3.input Please sign in using Asana Connect: 
   %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks:
   %form{:action => "/", :method => 'post'} 
     %fieldset
@@ -28,7 +28,7 @@
       %input{:type => "text", :name => "tag", :class => "text", :placeholder => "Asana Tag"}
       %br
       %select{name: "project_color"}
-        %option{value: "none"} Pick a Project Label Color
+        %option{value: "none"} Pick a Project Color
         %option{value: "none"} No Color
         %option{value: "dark-green"} Dark Green
         %option{value: "dark-pink"} Dark Pink
@@ -53,66 +53,17 @@
       %br
   %h3.input Your Tasks
   %p.instructions2 See a simple and clean list of your tasks (and subtasks):
-  %form{:action => "/user_view", :method => 'post'} 
+  %form{:action => "/userView", :method => 'post'} 
     %fieldset
-      %select{name: "project_color"}
-        %option{value: "none"} Pick a Project Label Color
-        %option{value: "none"} No Color
-        %option{value: "dark-green"} Dark Green
-        %option{value: "dark-pink"} Dark Pink
-        %option{value: "dark-blue"} Dark Blue
-        %option{value: "dark-red"} Dark Red
-        %option{value: "dark-teal"} Dark Teal
-        %option{value: "ddark-brown"} Dark Brown
-        %option{value: "dark-orange"} Dark Orange
-        %option{value: "dark-purple"} Dark Purple
-        %option{value: "dark-warm-gray"} Dark Warm Gray
-        %option{value: "light-pink"} Light Pink
-        %option{value: "light-green"} Light Green
-        %option{value: "light-blue"} Light Blue
-        %option{value: "light-red"} Light Red
-        %option{value: "light-teal"} Light Teal
-        %option{value: "light-yellow"} Light Yellow
-        %option{value: "light-orange"} Light Orange
-        %option{value: "light-purple"} Light Purple
-        %option{value: "light-warm-gray"} Light Warm Gray
-      %br
       %input{:type => "submit", :value => "View Your Tasks", :class => "button"}
   / Can use this for a list of other users?
 
-  %h3.input Tasks by Other User 
-  %p.instructions2 See a simple and clean list of someone else's tasks (and subtasks):
-  %form{:action => "/alt_user_view", :method => 'post'} 
-    %fieldset
-      / %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
-      / %br
-      / %input{:type => "text", :name => "user", :class => "text", :placeholder => "User ID"}
-      / / %br
-      %select{name: "project_color"}
-        %option{value: "none"} Pick a Project Label Color
-        %option{value: "none"} No Color
-        %option{value: "dark-green"} Dark Green
-        %option{value: "dark-pink"} Dark Pink
-        %option{value: "dark-blue"} Dark Blue
-        %option{value: "dark-red"} Dark Red
-        %option{value: "dark-teal"} Dark Teal
-        %option{value: "ddark-brown"} Dark Brown
-        %option{value: "dark-orange"} Dark Orange
-        %option{value: "dark-purple"} Dark Purple
-        %option{value: "dark-warm-gray"} Dark Warm Gray
-        %option{value: "light-pink"} Light Pink
-        %option{value: "light-green"} Light Green
-        %option{value: "light-blue"} Light Blue
-        %option{value: "light-red"} Light Red
-        %option{value: "light-teal"} Light Teal
-        %option{value: "light-yellow"} Light Yellow
-        %option{value: "light-orange"} Light Orange
-        %option{value: "light-purple"} Light Purple
-        %option{value: "light-warm-gray"} Light Warm Gray
-      %br
-      %select{name: "pick_a_user"}
-        %option{value: "none"} Pick a User
-        - locals[:all_users]["data"].each do |user|
-          %option{:value => user["id"]}= user["name"]
-      %br
-      %input{:type => "submit", :value => "View User's Tasks", :class => "button"}
+  / %h3.input Tasks by User 
+  / %p.instructions2 Enter an Asana user ID to see all your tasks by that user:
+  / %form{:action => "/userView", :method => 'post'} 
+  /   %fieldset
+  /     / %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
+  /     / %br
+  /     / %input{:type => "text", :name => "user", :class => "text", :placeholder => "User ID"}
+  /     / %br
+  /     %input{:type => "submit", :value => "View Your Tasks", :class => "button"}

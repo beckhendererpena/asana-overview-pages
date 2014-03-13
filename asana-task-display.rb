@@ -3,23 +3,79 @@ require 'sinatra'
 require 'haml'
 require 'typhoeus'
 require 'json'
-load 'tasks.rb' #get the Tasks class
+require './tasks' #get the Tasks class
+require 'omniauth-asana'
+require 'ostruct'
+# require './Asana_Config'
 
+$ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']
+$ASANA_CLIENT_SECRET = ENV['ASANA_CLIENT_SECRET']
 
-$key = ""      #can put your API key in here if you want - but should pass it in through a form
+# set :port, Asana_Config::PORT
+
+use Rack::Session::Cookie
+use OmniAuth::Builder do
+  provider :asana, $ASANA_CLIENT_ID, $ASANA_CLIENT_SECRET 
+end
+
 $tag = ""      #this will be the tag you want to display
 $color = ""    #project color
 $user = ""     #use ID, for now - later name
+$alt_user = ""
+$token = ""
 $tasks = Asana::Tasks.new  #make an instance of the tasks class
 
 
 ######################################################   Routes
 
+#before?
+# before '/success' do
+#   if session[:auth]
+#   else
+#     redirect '/auth/asana'
+#   end
+# end
+
+#Asana Connect page
+get '/' do
+  if session[:auth]
+    redirect '/success'
+  else
+    redirect '/auth/asana'
+   
+  end
+end
+
+#sign in
+get '/auth/:name/callback' do
+  auth = request.env['omniauth.auth']
+  session[:auth] = auth.credentials
+  session[:uid] = auth.uid
+  session[:user] = auth.info
+  $user = session[:uid]
+  $token = session[:auth][:token]
+  redirect '/'
+end
+
+
+get '/auth/failure' do
+  raise StandardError, params
+end
+
+get '/logout' do
+  session.destroy
+  redirect '/'
+end
+
 
 #input page
-get '/' do
+get '/success' do
+  #get list of user names and ids and store them in an array (will be an array with hashes inside)
+  all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth][:token]}).body)
+  #then loop through that array in haml
   
-  haml :input, :layout => false
+
+  haml :input, :layout => false, :locals => {:all_users => all_users}
 end
 
 get '/complete_task/:id' do |id|
@@ -28,14 +84,12 @@ get '/complete_task/:id' do |id|
   #post the call to complete the task
   $tasks.complete_task(task_id)
   #go get tasks again, this time updated
-  redirect ('/overview')
-
+  redirect ('/user')
 end
 
-#get parameters for the app
+#get parameters for the overview app
 post '/' do
-
-  $key = params[:key]
+  
   $tag = params[:tag]
   $color = ""
   if params[:project_color] != "none"
@@ -46,9 +100,26 @@ post '/' do
   redirect ('/overview')
 end
 
-post '/userView' do
-  $key = params[:key]
-  $user = params[:user]
+post '/user_view' do
+  $user = session[:uid]
+  $color = ""
+  if params[:project_color] != "none"
+    $color = params[:project_color]
+  else
+    $color = nil
+  end
+  redirect ('/user')
+
+end
+
+post '/alt_user_view' do
+  $color = ""
+  if params[:project_color] != "none"
+    $color = params[:project_color]
+  else
+    $color = nil
+  end
+  $user = params[:pick_a_user]
 
   redirect ('/user')
 end
@@ -56,7 +127,8 @@ end
 #show the overview
 get '/overview' do 
   
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
+  # all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,follower_names", userpwd: $key).body)
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
 
   active_projects = all_projects["data"].select { |e| e["color"] == $color }
 
@@ -73,7 +145,7 @@ get '/overview' do
     project["id"] = e["id"]
 
     #get all the task data, within parameters of Asana API
-    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,followers,due_on,assignee,tags,completed", userpwd: $key).body)
+    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,followers,due_on,assignee,tags,completed",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
     
     #parse the list for tasks with tags
     tagged_tasks = all_tasks["data"].select { |task| task["tags"].length >= 1 && task["completed"] == false} 
@@ -92,14 +164,14 @@ get '/overview' do
 
       #get tag info for each task
       task_id.each do |id|
-        tag_info = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/tags", userpwd: $key).body) #try an option_expand here from Asana  #returns an hash "data" with it's value as an array
+        tag_info = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/tags",  headers: {Authorization: "Bearer " + session[:auth].token}).body) #try an option_expand here from Asana  #returns an hash "data" with it's value as an array
 
         #check the name of the tag
         if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   
 
           currentTask = tagged_tasks.find { |task| task["id"] == id.to_i} #returns task object, a hash
 
-          stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text", userpwd: $key).body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
+          stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text",  headers: {Authorization: "Bearer " + session[:auth].token}).body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
           #clean up notes
           currentTask["notes"].gsub!("\n", "<br/>")
@@ -142,10 +214,14 @@ end
 get '/user' do 
   
   user_id = $user.to_i
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name", userpwd: $key).body)
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
 
-  active_projects = all_projects["data"].select { |e| e["color"] == "dark-green" }
-
+  if $color != nil 
+    active_projects = all_projects["data"].select { |e| e["color"] == $color }
+  else
+    active_projects = all_projects["data"]
+  end
+    
   @active_project_data = []
 
   active_projects.each do |e| 
@@ -154,7 +230,7 @@ get '/user' do
     project = Hash.new
     project["name"] = e["name"]
     project["id"] = e["id"]
-    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name", userpwd: $key).body)
+    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
     
     #parse the full list of tasks to see if there are any for the user
     tasksForUser = all_tasks["data"].select { |task| task["assignee"] != nil && task["completed"] == false && task["assignee"]["id"] == user_id}
@@ -163,19 +239,15 @@ get '/user' do
     if tasksForUser.any?
 
       #write a function that taks the array and sorts by date?  and then use it in user milestone pages too
-      tasks_with_dates = tasksForUser.select { |task| task["due_on"] != nil}
-      tasksForUser.delete_if { |task| task["due_on"] != nil}
-
-      tasks_with_dates.sort_by! {| task | task["due_on"] } 
-
-      rearranged_tasks = tasks_with_dates.concat(tasksForUser)
+      rearranged_tasks = $tasks.order_tasks_by_date(tasksForUser)
+      
 
       #check through tasks for subtasks, and add them to the task, if they exist
       rearranged_tasks.each do |task|
         subtasks = []
         $tasks.get_subtasks(task["id"], subtasks)
         if subtasks.length >= 1
-          task["subtasks"] = subtasks #an array of hashes
+          task["subtasks"] = $tasks.order_tasks_by_date(subtasks) #an array of hashes
         end
       end
 
