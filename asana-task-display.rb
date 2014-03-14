@@ -8,8 +8,9 @@ require 'omniauth-asana'
 require 'ostruct'
 # require './Asana_Config'
 
-$ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']
-$ASANA_CLIENT_SECRET = ENV['ASANA_CLIENT_SECRET']
+$ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']                 
+$ASANA_CLIENT_SECRET =  ENV['ASANA_CLIENT_SECRET']                    
+
 
 # set :port, Asana_Config::PORT
 
@@ -71,7 +72,7 @@ end
 #input page
 get '/success' do
   #get list of user names and ids and store them in an array (will be an array with hashes inside)
-  all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth][:token]}).body)
+  all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth][:refresh_token]}).body)
   #then loop through that array in haml
   
 
@@ -128,7 +129,7 @@ end
 get '/overview' do 
   
   # all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,follower_names", userpwd: $key).body)
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].refresh_token}).body)
 
   active_projects = all_projects["data"].select { |e| e["color"] == $color }
 
@@ -145,7 +146,7 @@ get '/overview' do
     project["id"] = e["id"]
 
     #get all the task data, within parameters of Asana API
-    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,followers,due_on,assignee,tags,completed",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,followers,due_on,assignee,tags,completed",  headers: {Authorization: "Bearer " + session[:auth].refresh_token}).body)
     
     #parse the list for tasks with tags
     tagged_tasks = all_tasks["data"].select { |task| task["tags"].length >= 1 && task["completed"] == false} 
@@ -164,14 +165,14 @@ get '/overview' do
 
       #get tag info for each task
       task_id.each do |id|
-        tag_info = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/tags",  headers: {Authorization: "Bearer " + session[:auth].token}).body) #try an option_expand here from Asana  #returns an hash "data" with it's value as an array
+        tag_info = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/tags",  headers: {Authorization: "Bearer " + session[:auth].refresh_token}).body) #try an option_expand here from Asana  #returns an hash "data" with it's value as an array
 
         #check the name of the tag
         if tag_info["data"].any? {|tag| tag["name"] == $asana_tag}   
 
           currentTask = tagged_tasks.find { |task| task["id"] == id.to_i} #returns task object, a hash
 
-          stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text",  headers: {Authorization: "Bearer " + session[:auth].token}).body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
+          stories = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/tasks/" + id + "/stories?opt_fields=type,text",  headers: {Authorization: "Bearer " + session[:auth].refresh_token}).body) #returns data array with hashes in each index, one for each comment.  "created by" key has hash as value, and includes "id" and "name"   
 
           #clean up notes
           currentTask["notes"].gsub!("\n", "<br/>")
@@ -214,7 +215,7 @@ end
 get '/user' do 
   
   user_id = $user.to_i
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].refresh_token}).body)
 
   if $color != nil 
     active_projects = all_projects["data"].select { |e| e["color"] == $color }
@@ -230,7 +231,7 @@ get '/user' do
     project = Hash.new
     project["name"] = e["name"]
     project["id"] = e["id"]
-    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name",  headers: {Authorization: "Bearer " + session[:auth].refresh_token}).body)
     
     #parse the full list of tasks to see if there are any for the user
     tasksForUser = all_tasks["data"].select { |task| task["assignee"] != nil && task["completed"] == false && task["assignee"]["id"] == user_id}
