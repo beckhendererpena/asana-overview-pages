@@ -25,6 +25,8 @@ get '/success' do
     <<-HTML
     Welcome, #{session[:user][:name]}!
     Auth.refresh_token returns #{session[:auth].refresh_token}!
+    Extra is #{session[:extra]}!
+    Creds is #{session[:auth]}
     Your token is #{session[:auth][:refresh_token]}, your id is #{session[:uid]}
     <a href='/logout'>Logout</a>
     HTML
@@ -35,6 +37,7 @@ get '/auth/:name/callback' do
   session[:auth] = auth.credentials
   session[:uid] = auth.uid
   session[:user] = auth.info
+  session[:extra] = auth.extra
   redirect '/'
 end
 

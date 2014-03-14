@@ -24,6 +24,7 @@
     / .container
     /   %div.logo
     .container
+      %p= @active_project_data[0]
       - @active_project_data.each do |proj| 
         %h4.heading= proj["name"]
         .row-fluid
