@@ -18,6 +18,7 @@
         $('#landing').fadeIn(600);
       } );
 #landing.container
+  %p= $new_token
   %h1.input Asana Task Viewer 
   %h3.input Tasks by Tag 
   %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks:
@@ -116,3 +117,41 @@
           %option{:value => user["id"]}= user["name"]
       %br
       %input{:type => "submit", :value => "View User's Tasks", :class => "button"}
+  
+  %h3.input Project Overview 
+  %p.instructions2 See a simple and clean overview of a project:
+  %form{:action => "/project_view", :method => 'post'} 
+    %fieldset
+      / %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
+      / %br
+      / %input{:type => "text", :name => "user", :class => "text", :placeholder => "User ID"}
+      / / %br
+      %select{name: "project_color"}
+        %option{value: "none"} Pick a Project Label Color
+        %option{value: "none"} No Color
+        %option{value: "dark-green"} Dark Green
+        %option{value: "dark-pink"} Dark Pink
+        %option{value: "dark-blue"} Dark Blue
+        %option{value: "dark-red"} Dark Red
+        %option{value: "dark-teal"} Dark Teal
+        %option{value: "ddark-brown"} Dark Brown
+        %option{value: "dark-orange"} Dark Orange
+        %option{value: "dark-purple"} Dark Purple
+        %option{value: "dark-warm-gray"} Dark Warm Gray
+        %option{value: "light-pink"} Light Pink
+        %option{value: "light-green"} Light Green
+        %option{value: "light-blue"} Light Blue
+        %option{value: "light-red"} Light Red
+        %option{value: "light-teal"} Light Teal
+        %option{value: "light-yellow"} Light Yellow
+        %option{value: "light-orange"} Light Orange
+        %option{value: "light-purple"} Light Purple
+        %option{value: "light-warm-gray"} Light Warm Gray
+      %br
+      %br
+      %select{name: "pick_a_project"}
+        %option{value: "none"} Pick a Project
+        - locals[:all_projects]["data"].each do |project|
+          %option{:value => project["id"]}= project["name"]
+      %br
+      %input{:type => "submit", :value => "View Available Projects", :class => "button"}

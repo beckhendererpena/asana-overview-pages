@@ -71,11 +71,14 @@ end
 get '/success' do
   # $redirect_location = "/success"
   # redirect '/auth/asana'
+  #get all available projects
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+
   #get list of user names and ids and store them in an array (with hashes inside)
   all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth][:token]}).body)
   #then loop through that array in haml
 
-  haml :input, :layout => false, :locals => {:all_users => all_users}
+  haml :input, :layout => false, :locals => {:all_users => all_users, :all_projects => all_projects}
 end
 
 get '/complete_task/:id' do |id|
@@ -123,6 +126,24 @@ post '/alt_user_view' do
 
   redirect ('/user')
 end
+
+post '/project_view' do
+  $color = ""
+  if params[:project_color] != "none"
+    $color = params[:project_color]
+  else
+    $color = nil
+  end
+  $user = params[:pick_a_project]
+
+  redirect ('/project')
+end
+
+get '/project' do
+
+  haml :project, :layout => false, :locals => {}
+end
+
 
 #show the overview
 get '/overview' do 
