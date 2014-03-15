@@ -24,6 +24,7 @@ $color = ""    #project color
 $user = ""     #use ID, for now - later name
 $alt_user = ""
 $token = ""
+$project = ""
 $tasks = Asana::Tasks.new  #make an instance of the tasks class
 
 $redirect_location = ""
@@ -128,26 +129,26 @@ post '/alt_user_view' do
 end
 
 post '/project_view' do
-  $color = ""
-  if params[:project_color] != "none"
-    $color = params[:project_color]
-  else
-    $color = nil
-  end
-  $user = params[:pick_a_project]
+  $project = params[:pick_a_project]
 
   redirect ('/project')
 end
 
 get '/project' do
+  project_id = $project.to_i
 
+  @active_project_data = []
+
+  #get project data
+
+  
   haml :project, :layout => false, :locals => {}
 end
 
 
 #show the overview
 get '/overview' do 
-  redirect_location = "/overview"
+
   # all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,follower_names", userpwd: $key).body)
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
 
