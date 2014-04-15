@@ -12,7 +12,7 @@ module Asana
 		end
 
 		def complete_task(task_id)
-		  Typhoeus.put("https://app.asana.com/api/1.0/tasks/" + task_id.to_s, body: '{"data": {"completed":true}}',  userpwd: $key).body)
+		  Typhoeus.put("https://app.asana.com/api/1.0/tasks/" + task_id.to_s, body: '{"data": {"completed":true}}', userpwd: $key).body
 		end
 
 		def get_subtasks(task_id, subtasks)
@@ -31,6 +31,10 @@ module Asana
           tasks_with_dates.sort_by! {| task | task["due_on"] } 
 
           tasks_with_dates.concat(task_array)
+        end
+
+        def getNextMilestone(task_array)
+
         end
 	end
 end

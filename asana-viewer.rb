@@ -3,25 +3,27 @@ require 'sinatra'
 require 'haml'
 require 'typhoeus'
 require 'json'
-require './tasks' #get the Tasks class
+require './asana' #get the Tasks class
 require 'omniauth-asana'
 require 'ostruct'
 require './Asana_Config'
 
-$ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']  # '9964655308375'                     
-$ASANA_CLIENT_SECRET =  ENV['ASANA_CLIENT_SECRET'] #'71afb3cc7e0a4c9cdf65bb1706430118'                     
+# $ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']  # '9964655308375'                     
+# $ASANA_CLIENT_SECRET =  ENV['ASANA_CLIENT_SECRET'] #'71afb3cc7e0a4c9cdf65bb1706430118'                     
 
 
 # set :port, Asana_Config::PORT
 
-use Rack::Session::Cookie
-use OmniAuth::Builder do
-  provider :asana, $ASANA_CLIENT_ID, $ASANA_CLIENT_SECRET 
-end
+# use Rack::Session::Cookie
+# use OmniAuth::Builder do
+#   provider :asana, $ASANA_CLIENT_ID, $ASANA_CLIENT_SECRET 
+# end
 
 $tag = ""      #this will be the tag you want to display
-$color = "Dark Green"    #project color
+$key = "4tuQrdX.gF4pVEShEPwEvyhThllyxAVs"
+$color = "dark-green"    #project color
 $user = ""     #use ID, for now - later name
+$user_id = ""
 $alt_user = ""
 $token = ""
 $project = ""
@@ -46,15 +48,10 @@ get '/' do
 
 end
 
-get 'project/:id' do |id|
-
-
-end
-
-get 'user/:id' do |id|
-
-  user_id = id
-  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+get '/user/:id' do |id|
+  
+  @user_id = id.to_i
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  userpwd: $key).body)
 
   # Gets only projects selected by control user
   if $color != nil 
@@ -73,17 +70,16 @@ get 'user/:id' do |id|
     project["id"] = e["id"]
 
     #now start sorting the tasks
-    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+    all_tasks = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + e["id"].to_s + "/tasks?opt_fields=name,notes,due_on,assignee,completed,tags&opt_expand=name",  userpwd: $key).body)
     
     #parse the full list of tasks to see if there are any for the user
-    tasksForUser = all_tasks["data"].select { |task| task["assignee"] != nil && task["completed"] == false && task["assignee"]["id"] == user_id}
+    tasksForUser = all_tasks["data"].select { |task| task["assignee"] != nil && task["completed"] == false && task["assignee"]["id"] == @user_id}
 
     #check to see if this user has any tasks assigned to them in this project.  If they do, then do this push.
     if tasksForUser.any?
-
+      
       #orders tasks by date
       rearranged_tasks = $tasks.order_tasks_by_date(tasksForUser)
-      
 
       #check through tasks for subtasks, and add them to the task, if they exist
       rearranged_tasks.each do |task|
@@ -97,26 +93,32 @@ get 'user/:id' do |id|
       #put that data into an array, for looping through in HAML
       project["tasks"] = rearranged_tasks
 
+
       #add this function
-      project["milestone"] = getNextMilestone(e)  #define this function
+      project["milestone"] = $tasks.getNextMilestone(e)  #define this function
 
       @active_project_data.push(project)
     end
-          #gets stories for comments - I don't think we'll use this in this Milestones version, but will use for individual project pages.
-
-          # if stories.any?  
-          #   stories["data"].each do |story|
-          #     if story["type"] == "comment"
-          #       collected_comments.push(story)
-          #     end
-          #   end
-          # end
           
-    #should I add subtasks?  Can I?
   end
 
   haml :personal_user, :layout => false
 end
+
+
+get '/complete_task/:id/:user_id' do |id,user_id|
+  #get the tasks id
+  task_id = id
+  #post the call to complete the task
+  $tasks.complete_task(task_id)
+  #go get tasks again, this time updated
+  redirect ("/user/#{user_id}")
+end
+
+
+
+
+
 
 
 #sign in
@@ -155,14 +157,7 @@ get '/success' do
   haml :input, :layout => false, :locals => {:all_users => all_users, :all_projects => all_projects}
 end
 
-get '/complete_task/:id' do |id|
-  #get the tasks id
-  task_id = id
-  #post the call to complete the task
-  $tasks.complete_task(task_id)
-  #go get tasks again, this time updated
-  redirect ('/user')
-end
+
 
 #get parameters for the overview app
 post '/' do
@@ -229,7 +224,7 @@ get '/overview' do
 
   @active_project_data = [] #to be filled with hashes for each project
 
-  $asana_tag = $tag #user selected tag
+  $asana_tag = "Milestone" #user selected tag
 
   #sort out data for each project
   active_projects.each do |e| 
@@ -306,7 +301,7 @@ get '/overview' do
 end  
 
 #user page
-get '/user' do 
+get '/users' do 
   # redirect_location = "/user"
   # redirect '/auth/asana'
 

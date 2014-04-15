@@ -46,7 +46,7 @@
                 %p.p-2= t["notes"]
                 -if t["subtasks"] != nil
                   %div.subs
-                    %h5 Subtasks
+                    %h5 Breakdown
                     -t["subtasks"].each do |subtask|
                       %p.p-1.subtask_wrapper
                         %span> 
@@ -58,5 +58,5 @@
                           \ 
                           %span.date= subtask["due_on"]
                         %br
-                        %a.complete_subtask{href: "/complete_task/#{subtask["id"]}"} Mark Complete
+                        %a.complete_subtask{href: "/complete_task/#{subtask["id"]}/#{@user_id}"} Mark Complete
     
