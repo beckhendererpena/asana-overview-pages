@@ -137,12 +137,12 @@ end
 get '/project' do
   project_id = $project.to_i
 
-  @active_project_data = []
-
-  #get project data
-
+  #get project data - comes back as a hash
+  selected_project = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + project_id.to_s + "?opt_fields=name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
   
-  haml :project, :layout => false, :locals => {}
+
+
+  haml :project, :layout => false, :locals => {:selected_project => selected_project}
 end
 
 
