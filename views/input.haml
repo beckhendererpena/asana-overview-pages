@@ -18,9 +18,11 @@
         $('#landing').fadeIn(600);
       } );
 #landing.container
+  %p= $new_token
   %h1.input Asana Task Viewer 
+  %p.instructions A simple and clean viewer for Asana tasks and projects.
+
   %h3.input Tasks by Tag 
-  %p.instructions Enter the tag you want to filter your tasks by in the form below.  In Asana, group your projects by labeling them by color, and then pick a color below to determine which projects to look in for tasks:
   %form{:action => "/", :method => 'post'} 
     %fieldset
       / %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
@@ -52,7 +54,6 @@
       %input{:type => "submit", :value => "View Tasks by Tag", :class => "button"}
       %br
   %h3.input Your Tasks
-  %p.instructions2 See a simple and clean list of your tasks (and subtasks):
   %form{:action => "/user_view", :method => 'post'} 
     %fieldset
       %select{name: "project_color"}
@@ -81,7 +82,6 @@
   / Can use this for a list of other users?
 
   %h3.input Tasks by Other User 
-  %p.instructions2 See a simple and clean list of someone else's tasks (and subtasks):
   %form{:action => "/alt_user_view", :method => 'post'} 
     %fieldset
       / %input{:type => "text", :name => "key", :class => "text", :placeholder => "API Key"}
@@ -116,3 +116,13 @@
           %option{:value => user["id"]}= user["name"]
       %br
       %input{:type => "submit", :value => "View User's Tasks", :class => "button"}
+  
+  %h3.input Project Overview 
+  %form{:action => "/project_view", :method => 'post'} 
+    %fieldset
+      %select{name: "pick_a_project"}
+        %option{value: "none"} Pick a Project
+        - locals[:all_projects]["data"].each do |project|
+          %option{:value => project["id"]}= project["name"]
+      %br
+      %input{:type => "submit", :value => "View Available Projects", :class => "button"}

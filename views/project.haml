@@ -1,11 +1,28 @@
-%h1= @project.name
-%p=  @project.notes
-
-%p NEXT MILESTONE:
-%h2= @milestone.name
-
-- @userList.each do |user| 
-  %h2= user
-  - @allAssignedTasks.each do |task|
-    - if task.assignee.name == user
-      %p= task.name
+!!!
+%html{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}/
+    %meta{content: "width=device-width, initial-scale=1, maximum-scale=1", name: "viewport"}/
+    %link{href: "https://fonts.googleapis.com/css?family=Limelight|Flamenco|Federo|Yesteryear|Josefin Sans|Spinnaker|Sansita One|Handlee|Droid Sans|Oswald:400,300,700", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/bootstrap.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/bootstrap-responsive.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/common.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/fontawesome.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/project.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %link{href: "/stylesheets/asana-personal.css", media: "screen", rel: "stylesheet", type: "text/css"}/
+    %script{:type => "text/javascript", :src  => "https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"}
+    :javascript
+      $(document).ready( function() {
+        $('body').hide();
+        $('body').fadeIn(400);
+      } );
+    /
+      Typekit fonts require an account and a kit containing the fonts used. see https://typekit.com/plans for details. <script type="text/javascript" src="//use.typekit.net/YOUR_KIT_ID.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    %title Asana Project Overview
+  %body
+    / .container
+    /   %div.logo
+    .container
+      %h4= locals[:selected_project]["data"]["name"]
+        

@@ -3,4 +3,4 @@
 echo "Installing bundle" &&
   bundle --quiet &&
   echo "Starting server" &&
-  bundle exec ruby app.rb
+  bundle exec ruby app_mod.rb

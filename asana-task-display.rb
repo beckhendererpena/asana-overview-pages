@@ -6,10 +6,11 @@ require 'json'
 require './tasks' #get the Tasks class
 require 'omniauth-asana'
 require 'ostruct'
-# require './Asana_Config'
+require './Asana_Config'
 
-$ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']
-$ASANA_CLIENT_SECRET = ENV['ASANA_CLIENT_SECRET']
+$ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']  # '9964655308375'                     
+$ASANA_CLIENT_SECRET =  ENV['ASANA_CLIENT_SECRET'] #'71afb3cc7e0a4c9cdf65bb1706430118'                     
+
 
 # set :port, Asana_Config::PORT
 
@@ -23,27 +24,26 @@ $color = ""    #project color
 $user = ""     #use ID, for now - later name
 $alt_user = ""
 $token = ""
+$project = ""
 $tasks = Asana::Tasks.new  #make an instance of the tasks class
+
+$redirect_location = ""
 
 
 ######################################################   Routes
 
-#before?
-# before '/success' do
-#   if session[:auth]
-#   else
-#     redirect '/auth/asana'
-#   end
-# end
 
 #Asana Connect page
 get '/' do
-  if session[:auth]
-    redirect '/success'
-  else
-    redirect '/auth/asana'
-   
-  end
+  $redirect_location = "success"
+  redirect '/auth/asana'
+  # How it used to be when I checked to see if Auth was true first.
+  # if session[:auth]
+  #   redirect '/success'
+  # else
+  #   redirect '/auth/asana'
+  # end
+
 end
 
 #sign in
@@ -54,7 +54,7 @@ get '/auth/:name/callback' do
   session[:user] = auth.info
   $user = session[:uid]
   $token = session[:auth][:token]
-  redirect '/'
+  redirect "/#{$redirect_location}" 
 end
 
 
@@ -70,12 +70,16 @@ end
 
 #input page
 get '/success' do
-  #get list of user names and ids and store them in an array (will be an array with hashes inside)
+  # $redirect_location = "/success"
+  # redirect '/auth/asana'
+  #get all available projects
+  all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+
+  #get list of user names and ids and store them in an array (with hashes inside)
   all_users = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/users/?opt_fields=id,name",  headers: {Authorization: "Bearer " + session[:auth][:token]}).body)
   #then loop through that array in haml
-  
 
-  haml :input, :layout => false, :locals => {:all_users => all_users}
+  haml :input, :layout => false, :locals => {:all_users => all_users, :all_projects => all_projects}
 end
 
 get '/complete_task/:id' do |id|
@@ -124,9 +128,27 @@ post '/alt_user_view' do
   redirect ('/user')
 end
 
+post '/project_view' do
+  $project = params[:pick_a_project]
+
+  redirect ('/project')
+end
+
+get '/project' do
+  project_id = $project.to_i
+
+  #get project data - comes back as a hash
+  selected_project = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/" + project_id.to_s + "?opt_fields=name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
+  
+
+
+  haml :project, :layout => false, :locals => {:selected_project => selected_project}
+end
+
+
 #show the overview
 get '/overview' do 
-  
+
   # all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,follower_names", userpwd: $key).body)
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
 
@@ -212,7 +234,9 @@ end
 
 #user page
 get '/user' do 
-  
+  # redirect_location = "/user"
+  # redirect '/auth/asana'
+
   user_id = $user.to_i
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  headers: {Authorization: "Bearer " + session[:auth].token}).body)
 
@@ -238,7 +262,7 @@ get '/user' do
     #check to see if this user has any tasks assigned to them in this project.  If they do, then do this push.
     if tasksForUser.any?
 
-      #write a function that taks the array and sorts by date?  and then use it in user milestone pages too
+      #orders tasks by date
       rearranged_tasks = $tasks.order_tasks_by_date(tasksForUser)
       
 
