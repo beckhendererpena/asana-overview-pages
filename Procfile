@@ -1,1 +1,1 @@
-web: bundle exec ruby asana-task-display.rb -p $PORT
+web: bundle exec ruby asana-viewer.rb -p $PORT
