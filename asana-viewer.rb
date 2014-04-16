@@ -31,6 +31,16 @@ $tasks = Asana::Tasks.new  #make an instance of the tasks class
 
 $redirect_location = ""
 
+$usernames = {
+  beck: 254224582253, 
+  furey: 5357621858433,
+  loren: 5025069468334,
+  jens: 6158891506306,
+  brody: 9144245586148,
+  davidG: 7418600337492,
+  ivan: 7848873077224 
+}
+
 
 ######################################################   Routes
 
@@ -48,9 +58,14 @@ get '/' do
 
 end
 
-get '/user/:id' do |id|
+get '/user/:name' do |name|
   
-  @user_id = id.to_i
+  # if name exsists in $usernames, get it's value and make it = to @user_id
+  # else return something else
+  @user_id = $usernames[name.to_sym]
+
+
+  # @user_id = id.to_i
   all_projects = JSON.parse(Typhoeus::Request.get("https://app.asana.com/api/1.0/projects/?opt_fields=color,name",  userpwd: $key).body)
 
   # Gets only projects selected by control user
