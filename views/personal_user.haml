@@ -63,9 +63,9 @@
                   \ 
                   %span.date= t["due"]
                   %br
-                  %span.team> Team:
-                  \ 
-                  %span= t["team"].join(", ")
+                  / %span.team> Producer:
+                  / \ 
+                  / %span= t["team"].join(", ")
                 / %p.milestone_name= t["name"]
               - proj["tasks"].each do |t|
                 %div.task_wrapper
