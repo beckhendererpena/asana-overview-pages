@@ -27,36 +27,75 @@
       - @active_project_data.each do |proj| 
         %h4.heading= proj["name"]
         .row-fluid
+
+          / %span.span12
+          /   .div-1
+          /     - proj["tasks"].each do |t|
+          /       .page-header
+          /         %h1= t["name"]
+          /       %p.team_wrapper
+          /         %span.team> Team:
+          /         \
+          /         - t["follower_names"].each do |follower|
+          /           %span.names #{follower}
+          /       -if t["due_on"] != nil
+          /         %p.p-1
+          /           %span.dateTitle> Due Date:
+          /           \ 
+          /           %span.date= t["due_on"]
+          /       %div
+          /         %span
+          /       #dom-elem-24.dom-body-text.paragraph
+          /       / %span
+          /       / %span
+          /       %p.p-2= t["notes"]
           %span.span12
             .div-1
+              / %div.milestone> NEXT MILESTONE: 
+              / %p = proj["milestone"]["name"]
+              - proj["milestone"].each do |t|
+                %div.milestone_wrapper
+                  %span.milestone_title> NEXT MILESTONE:
+                  \ 
+                  %span.milestone_name= t["name"]
+                  %div.milestone_notes= t["notes"]
+                  %span.dateTitle> Due Date:
+                  \ 
+                  %span.date= t["due"]
+                  %br
+                  %span.team> Team:
+                  \ 
+                  %span= t["team"].join(", ")
+                / %p.milestone_name= t["name"]
               - proj["tasks"].each do |t|
-                .page-header
-                  %h1= t["name"]
-                -if t["due_on"] != nil
-                  %p.p-1
-                    %span.dateTitle> Due Date:
-                    \ 
-                    %span.date= t["due_on"]
-                %a.complete_task{href: "/complete_task/#{t["id"]}/#{@user_id}"} Mark Complete
-                %div
-                  %span
-                #dom-elem-24.dom-body-text.paragraph
-                / %span
-                / %span
-                %p.p-2= t["notes"]
-                -if t["subtasks"] != nil
-                  %div.subs
-                    %h5 Breakdown
-                    -t["subtasks"].each do |subtask|
-                      %p.p-1.subtask_wrapper
-                        %span> 
-                        \ 
-                        %span.subtask= subtask["name"]
-                        -if subtask["due_on"] != nil
-                          %br
-                          %span.dateTitle.subtask_date> Due Date:
+                %div.task_wrapper
+                  .page-header
+                    %h1= t["name"]
+                  -if t["due_on"] != nil
+                    %p.p-1
+                      %span.dateTitle> Due Date:
+                      \ 
+                      %span.date= t["due_on"]
+                  %a.complete_task{href: "/complete_task/#{t["id"]}/#{@user_id}"} Mark Complete
+                  %div
+                    %span
+                  #dom-elem-24.dom-body-text.paragraph
+                  / %span
+                  / %span
+                  %p.p-2= t["notes"]
+                  -if t["subtasks"] != nil
+                    %div.subs
+                      %h5 Breakdown
+                      -t["subtasks"].each do |subtask|
+                        %p.p-1.subtask_wrapper
+                          %span> 
                           \ 
-                          %span.date= subtask["due_on"]
-                        %br
-                        %a.complete_subtask{href: "/complete_task/#{subtask["id"]}/#{@user_id}"} Mark Complete
+                          %span.subtask= subtask["name"]
+                          -if subtask["due_on"] != nil
+                            %br
+                            %span.dateTitle.subtask_date> Due Date:
+                            \ 
+                            %span.date= subtask["due_on"]
+                          %br
+                          %a.complete_subtask{href: "/complete_task/#{subtask["id"]}/#{@name}"} Mark Complete
     
