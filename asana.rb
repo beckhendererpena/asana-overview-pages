@@ -87,7 +87,7 @@ module Asana
     			milestone["name"] = task["name"]
     			milestone["id"] = task["id"]
     			milestone["due"] = task["due_on"]
-    			milestone["notes"] = task["notes"]   #.gsub!("\n", "<br/>")	          
+    			milestone["notes"] = task["notes"]  #.gsub!("\n", "<br/>")	          
 	          	#then get the relevant story info of that same task, and also put that in the hash
 	          	#a hack or messy way to get current task into an array, since my function below takes an array
 	            currentTaskArray = []
