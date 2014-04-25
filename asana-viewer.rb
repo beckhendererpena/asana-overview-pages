@@ -6,8 +6,8 @@ require 'json'
 require './asana' #get the Tasks class
 require 'omniauth-asana'
 require 'ostruct'
-require 'pry'
-require 'pry-debugger'
+# require 'pry'
+# require 'pry-debugger'
 # require './Asana_Config'
 
 # $ASANA_CLIENT_ID = ENV['ASANA_CLIENT_ID']  # '9964655308375'                     
