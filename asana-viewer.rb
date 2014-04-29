@@ -24,6 +24,7 @@ require 'ostruct'
 $asana_tag = "MILESTONE"      #this will be the tag you want to display
 $key = "4tuQrdX.gF4pVEShEPwEvyhThllyxAVs"
 $color = "dark-green"    #project color
+$alt_color = "light-green"
 $user = ""     #use ID, for now - later name
 $user_id = ""
 $alt_user = ""
@@ -65,7 +66,7 @@ get '/user/:name' do |name|
 
   # Gets only projects selected by control user
   if $color != nil 
-    active_projects = all_projects["data"].select { |e| e["color"] == $color }  # currently hard coded to dark green
+    active_projects = all_projects["data"].select { |e| e["color"] == $color || e["color"] == $alt_color}  # currently hard coded to dark green
   else
     active_projects = all_projects["data"]
   end
