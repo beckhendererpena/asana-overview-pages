@@ -44,7 +44,9 @@ $usernames = {
   ivan: 7848873077224,
   paulcantor: 4308664502502,
   gmo: 11733264621585,
-  jasonlust: 1116668594502 
+  jasonlust: 1116668594502,
+  andy: 12220364229234,
+  jamin: 12220364229186 
 }
 
 # binding.pry
